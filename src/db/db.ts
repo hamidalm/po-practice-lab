@@ -1,5 +1,5 @@
 import Dexie, { type Table } from 'dexie';
-import type { Comment, InboxMessage, Issue, IssueLink, MetaRow, Page, Sprint } from './types';
+import type { Attempt, Comment, InboxMessage, Issue, IssueLink, MetaRow, Page, Sprint } from './types';
 
 export class PoLabDB extends Dexie {
   issues!: Table<Issue, string>;
@@ -9,6 +9,7 @@ export class PoLabDB extends Dexie {
   pages!: Table<Page, string>;
   inbox!: Table<InboxMessage, string>;
   meta!: Table<MetaRow, string>;
+  attempts!: Table<Attempt, string>;
 
   constructor() {
     super('po-practice-lab');
@@ -21,10 +22,11 @@ export class PoLabDB extends Dexie {
       inbox: 'id, receivedAt',
       meta: 'key',
     });
+    this.version(2).stores({ attempts: 'id, scenarioId, updatedAt' });
   }
 }
 
 export const db = new PoLabDB();
 
-export const TABLES = ['issues', 'links', 'comments', 'sprints', 'pages', 'inbox', 'meta'] as const;
+export const TABLES = ['issues', 'links', 'comments', 'sprints', 'pages', 'inbox', 'meta', 'attempts'] as const;
 export type TableName = (typeof TABLES)[number];

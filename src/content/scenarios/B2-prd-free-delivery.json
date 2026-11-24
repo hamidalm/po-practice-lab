@@ -1,0 +1,370 @@
+{
+  "id": "B2-prd-free-delivery",
+  "track": "B",
+  "difficulty": 2,
+  "lessonId": "prd",
+  "title": "One-page PRD: free-delivery progress message",
+  "skills": [
+    "PRD writing",
+    "Scope",
+    "Non-functional requirements"
+  ],
+  "from": {
+    "name": "Sophie Martens",
+    "role": "BU eCommerce Manager"
+  },
+  "context": "After discovery, the team agrees to show shoppers **how far they are from free delivery** in the basket (and in the mini-basket). The pilot is on **Drogisterij Prijs**; the group wants it reusable for the other brands. Write the one-page PRD before refinement.",
+  "data": [
+    {
+      "title": "Free-delivery thresholds",
+      "columns": [
+        "Brand",
+        "Threshold",
+        "Fee below threshold"
+      ],
+      "rows": [
+        [
+          "Drogisterij Prijs (NL/BE)",
+          "€20",
+          "€3.95"
+        ],
+        [
+          "Chemist & Co (UK)",
+          "£25",
+          "£3.50"
+        ],
+        [
+          "Maison Parfum (NL/BE/FR)",
+          "€50",
+          "€4.95"
+        ]
+      ]
+    },
+    {
+      "title": "Drogisterij Prijs facts",
+      "columns": [
+        "Fact",
+        "Value"
+      ],
+      "rows": [
+        [
+          "Orders above the threshold today",
+          "46%"
+        ],
+        [
+          "Baskets within €5 below the threshold",
+          "41%"
+        ],
+        [
+          "Mobile share",
+          "72%"
+        ],
+        [
+          "Weekend promotions",
+          "Sometimes free delivery on all orders"
+        ],
+        [
+          "Click & Collect",
+          "Always free"
+        ],
+        [
+          "Languages",
+          "Dutch, French (BE)"
+        ]
+      ]
+    }
+  ],
+  "task": "Fill in the one-page PRD. Keep each section short.",
+  "constraints": [
+    "One page: short bullets",
+    "Testable functional requirements",
+    "Think multi-brand from day one"
+  ],
+  "parts": [
+    {
+      "id": "problem",
+      "kind": "text",
+      "label": "Problem",
+      "prompt": "Who, what, evidence.",
+      "minWords": 20,
+      "rows": 3
+    },
+    {
+      "id": "metric",
+      "kind": "text",
+      "label": "Goal, metric and guardrails",
+      "prompt": "Goal in one line; primary metric with baseline, target and timeframe; 2–3 guardrails.",
+      "minWords": 20,
+      "rows": 4,
+      "checks": [
+        "metric"
+      ]
+    },
+    {
+      "id": "users",
+      "kind": "text",
+      "label": "Users",
+      "prompt": "Which segments?",
+      "minWords": 5,
+      "rows": 2
+    },
+    {
+      "id": "inscope",
+      "kind": "text",
+      "label": "In scope",
+      "prompt": "What this release includes.",
+      "minWords": 10,
+      "rows": 3
+    },
+    {
+      "id": "outscope",
+      "kind": "text",
+      "label": "Out of scope",
+      "prompt": "What it deliberately does not include.",
+      "minWords": 8,
+      "rows": 3
+    },
+    {
+      "id": "functional",
+      "kind": "text",
+      "label": "Functional requirements",
+      "prompt": "Numbered, testable behaviours. Include special cases.",
+      "minWords": 40,
+      "rows": 8,
+      "checks": [
+        "vague"
+      ]
+    },
+    {
+      "id": "nfr",
+      "kind": "text",
+      "label": "Non-functional requirements",
+      "prompt": "Performance, localisation, accessibility, tracking…",
+      "minWords": 15,
+      "rows": 4
+    },
+    {
+      "id": "risks",
+      "kind": "text",
+      "label": "Risks and mitigations",
+      "prompt": "At least two.",
+      "minWords": 15,
+      "rows": 3
+    },
+    {
+      "id": "rollout",
+      "kind": "text",
+      "label": "Rollout",
+      "prompt": "Order, flag, test, dates.",
+      "minWords": 10,
+      "rows": 3
+    }
+  ],
+  "keypoints": [
+    {
+      "id": "p-41",
+      "label": "Uses the 41% within €5 evidence",
+      "part": "problem",
+      "anyOf": [
+        "41%",
+        "41 %"
+      ]
+    },
+    {
+      "id": "m-46",
+      "label": "Baseline 46% orders above threshold",
+      "part": "metric",
+      "anyOf": [
+        "46%",
+        "46 %"
+      ]
+    },
+    {
+      "id": "m-guard",
+      "label": "Guardrail on conversion or margin",
+      "part": "metric",
+      "anyOf": [
+        "conversion",
+        "margin",
+        "guardrail"
+      ]
+    },
+    {
+      "id": "o-recs",
+      "label": "Excludes product recommendations or app",
+      "part": "outscope",
+      "anyOf": [
+        "recommend",
+        "app",
+        "suggest"
+      ]
+    },
+    {
+      "id": "f-threshold",
+      "label": "Threshold configurable per brand/currency",
+      "part": "functional",
+      "anyOf": [
+        "per brand",
+        "configurable",
+        "config",
+        "currency"
+      ]
+    },
+    {
+      "id": "f-reached",
+      "label": "Message when the threshold is reached",
+      "part": "functional",
+      "anyOf": [
+        "reached",
+        "qualif",
+        "free delivery unlocked",
+        "above the threshold",
+        "over the threshold"
+      ]
+    },
+    {
+      "id": "f-promo",
+      "label": "Handles free-delivery promotions",
+      "part": "functional",
+      "anyOf": [
+        "promo",
+        "weekend",
+        "campaign"
+      ]
+    },
+    {
+      "id": "f-cc",
+      "label": "Handles Click & Collect",
+      "part": "functional",
+      "anyOf": [
+        "click & collect",
+        "click and collect",
+        "collect"
+      ]
+    },
+    {
+      "id": "f-update",
+      "label": "Updates when the basket changes",
+      "part": "functional",
+      "anyOf": [
+        "update",
+        "remove",
+        "change quantity",
+        "changes"
+      ]
+    },
+    {
+      "id": "n-perf",
+      "label": "Performance",
+      "part": "nfr",
+      "anyOf": [
+        "performance",
+        "speed",
+        "lcp",
+        "load"
+      ]
+    },
+    {
+      "id": "n-loc",
+      "label": "Localisation (language/currency)",
+      "part": "nfr",
+      "anyOf": [
+        "dutch",
+        "french",
+        "translat",
+        "locali",
+        "language",
+        "currency"
+      ]
+    },
+    {
+      "id": "n-track",
+      "label": "Tracking",
+      "part": "nfr",
+      "anyOf": [
+        "tracking",
+        "analytics",
+        "event"
+      ]
+    },
+    {
+      "id": "n-a11y",
+      "label": "Accessibility",
+      "part": "nfr",
+      "anyOf": [
+        "accessib",
+        "wcag",
+        "screen reader",
+        "contrast"
+      ]
+    },
+    {
+      "id": "r-flag",
+      "label": "Feature flag or A/B test",
+      "part": "rollout",
+      "anyOf": [
+        "flag",
+        "a/b",
+        "ab test",
+        "experiment",
+        "test group"
+      ]
+    }
+  ],
+  "rubric": [
+    {
+      "id": "why",
+      "criterion": "Problem, goal and metric",
+      "weight": 20,
+      "full": "Evidence-based, with baseline/target/timeframe and guardrails",
+      "partial": "Missing numbers or guardrails"
+    },
+    {
+      "id": "scope",
+      "criterion": "Scope boundaries",
+      "weight": 15,
+      "full": "Clear in and out of scope",
+      "partial": "Out of scope missing or vague"
+    },
+    {
+      "id": "func",
+      "criterion": "Functional requirements",
+      "weight": 25,
+      "full": "Testable, covering promos, C&C, threshold reached, basket changes",
+      "partial": "Happy path only"
+    },
+    {
+      "id": "nfr",
+      "criterion": "Non-functional requirements",
+      "weight": 15,
+      "full": "Performance, localisation, accessibility, tracking",
+      "partial": "One or two"
+    },
+    {
+      "id": "risk",
+      "criterion": "Risks and rollout",
+      "weight": 15,
+      "full": "Real risks with mitigations; staged rollout with flag/test",
+      "partial": "Generic"
+    },
+    {
+      "id": "brevity",
+      "criterion": "One page",
+      "weight": 10,
+      "full": "Short bullets, scannable",
+      "partial": "Long prose"
+    }
+  ],
+  "hints": [
+    "Start with the numbers: 41% of baskets are within €5 and 46% of orders are already above the threshold.",
+    "For functional requirements, walk through the basket: below the threshold, exactly at it, above it, basket changes, free-delivery weekend, Click & Collect.",
+    "Key items: threshold and fee configurable per brand and currency; message in NL/FR; no extra page weight; tracking event; risk: wrong message during promos. Rollout: DP behind a flag with an A/B test, then CC and MP."
+  ],
+  "modelAnswer": "**Problem:** 41% of Drogisterij Prijs baskets are within €5 of free delivery, but shoppers don't see how close they are until checkout.\n\n**Goal, metric, guardrails:** More shoppers reach free delivery by adding an item. Orders above the threshold from **46% → 52% within 6 weeks**. Guardrails: basket→order conversion and margin per order stable.\n\n**Users:** All DP shoppers with a home-delivery basket, mobile first (72%).\n\n**In scope:** Progress message in the basket and the mini-basket; DP web (NL/FR).\n\n**Out of scope:** Product suggestions to fill the gap; app; other brands (phase 2).\n\n**Functional requirements**\n1. Below the threshold: show \"Add €X more for free delivery\" with a progress bar.\n2. At or above the threshold: show \"You get free delivery\".\n3. The message updates instantly when items are added, removed or quantities change.\n4. During a free-delivery promotion, show the promotion message instead.\n5. Not shown for Click & Collect-only baskets (always free).\n6. Threshold, fee and currency configurable per brand in the back office.\n\n**Non-functional:** No measurable impact on LCP; NL/FR copy; WCAG 2.1 AA (text, not only colour); tracking event when the message is shown and when the threshold is crossed.\n\n**Risks:** Wrong message during promos → rule 4 plus tests. Shoppers add cheap items, so margin falls → monitor the margin guardrail.\n\n**Rollout:** DP behind a feature flag, 50/50 A/B test for 4 weeks; then CC (£) and MP.",
+  "commonMistakes": [
+    "Hard-coding €20 instead of making it configurable per brand",
+    "Forgetting promotions and Click & Collect",
+    "Requirements like \"the message should be clear and nice\"",
+    "No out-of-scope section"
+  ]
+}

@@ -8,13 +8,15 @@ Brands in the demo workspace: **Chemist & Co** (UK drugstore), **Drogisterij Pri
 
 ## Status
 
+The app is **completely free and works offline**. There are no AI calls and no API keys.
+
 | Phase | Scope | State |
 |---|---|---|
 | 1 | Workspace: board, backlog, issues, links, pages, inbox, local storage | ✅ done |
-| 2 | Scenario engine, 10 scenarios, concept cards, hints, rubric, model answers | next |
-| 3 | AI grading via local proxy, token budget, caching, settings | |
+| 2 | Learn library (11 lessons), 10 guided practice tasks, instant checks, hints, rubric self-check, model answers | ✅ done |
+| 3 | "Ask Claude" copy-prompts with score paste-back | next |
 | 4 | Stakeholder role-plays, day simulation | |
-| 5 | Progress tracking, review queue, interview mode | |
+| 5 | Progress tracking and review queue | |
 
 ## Setup
 
@@ -27,8 +29,16 @@ npm test           # unit tests
 npm run build      # typecheck + production build
 ```
 
-No API key is needed until Phase 3. Copy `.env.example` to `.env` then. The key is only ever read by the local
-proxy in `/server`, never by the browser.
+## How to practise
+
+1. **Learn**: read a lesson (or just its 1-minute concept card).
+2. **Practice**: open a task. Each task has four steps:
+   - **Brief:** concept card, situation, data tables, your task
+   - **Your answer:** write stories, rank items, pick a sprint scope, fill in a PRD… Instant checks appear as you type
+   - **Check:** automatic check (format rules, numbers, key points from the brief) plus your own rating against the rubric
+   - **Compare:** your answer next to the model answer, the common mistakes, and saving your scores
+3. Hints are in the **Coach** panel (three levels, each one closer to the answer).
+4. Some **Inbox** messages start a task directly.
 
 ## Using the workspace
 
@@ -51,17 +61,54 @@ Data is stored in your browser (IndexedDB). Clearing site data deletes it, so ex
 src/
   app/          layout, routes, UI state (zustand)
   components/   shared UI bits (type icons, pills, modal)
-  db/           Dexie schema, types, actions, demo seed, backup
+  content/      lessons (Markdown) and scenarios (JSON)
+  engine/       instant checks and scoring, with unit tests
+  db/           Dexie schema, types, actions, attempts, demo seed, backup
   lib/          pure logic with unit tests (ranking, link rules, backup format)
   features/
+    practice/   practice list, task page (4 steps), answer editors
+    learn/      learning library
     board/      backlog, sprint board, issue drawer, create dialog
     pages/      page list, Markdown editor, templates
     inbox/      messages
     assistant/  Coach panel
     settings/   export / import / reset
-server/         local AI proxy (Phase 3)
 ```
 
-## How to add scenarios / change models and budget
+## How to add a practice task (scenario)
 
-Added in Phase 2 (scenarios) and Phase 3 (models, budget).
+Scenarios are JSON files in `src/content/scenarios/`. Copy an existing one, give it a new `id` (also the file name), and edit it.
+It appears in the app automatically.
+
+| Field | What it is |
+|---|---|
+| `id`, `track` (`A`/`B`), `title`, `difficulty` (1–3), `lessonId`, `skills` | Basics. `lessonId` must match a lesson file name |
+| `from` | Optional sender (name, role) |
+| `context` | The situation (Markdown) |
+| `data` | Small tables: `title`, `columns`, `rows`, optional `note` |
+| `task`, `constraints` | What to do and the rules |
+| `parts` | The answer fields, see below |
+| `keypoints` | What a good answer mentions: `label`, the `part` it belongs to, and `anyOf` phrases (case-insensitive) |
+| `rubric` | 3–6 criteria with `weight` (must add up to 100), `full` and `partial` descriptions |
+| `hints` | Exactly 3, from gentle to nearly the answer |
+| `modelAnswer` | Markdown |
+| `commonMistakes` | List of strings |
+
+**Part kinds**
+
+| `kind` | Use for | Extra fields |
+|---|---|---|
+| `text` | Free text | `minWords`, `rows`, `checks`: `metric` (needs numbers + timeframe), `vague`, `questions` |
+| `number` | A calculation | `answer`, `tolerance`, `unit`, `explanation` |
+| `choice` | Single or multiple choice | `multi`, `options` (`id`, `label`, `feedback`), `correct` |
+| `rank` | Prioritisation | `items`, `expectedOrder`, optional `mustTop`, `explanation` |
+| `select` | Sprint scope | `items` (with `points`), `capacity`, `mustInclude`, `mustExclude` (with `reason`) |
+| `match` | Match rows to options | `rows`, `options`, `answers`, `explanations` |
+| `stories` | User stories with Given/When/Then | `minStories`, `maxStories`, `minAcPerStory`, `requireEstimate` |
+
+Run `npm test` after editing: it validates every scenario (weights add up to 100, 3 hints, valid ids, must-dos fit capacity and so on).
+
+## How to add or edit a lesson
+
+Lessons are Markdown files in `src/content/lessons/`. Start with `# Title`, then a `## In one minute` section (used as the
+concept card), then any sections you like. Register a new lesson in `LESSON_META` in `src/content/index.ts`.

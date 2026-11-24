@@ -1,0 +1,242 @@
+{
+  "id": "A3-prioritise-bu-wishlist",
+  "track": "A",
+  "difficulty": 2,
+  "lessonId": "prioritisation",
+  "title": "Prioritise the BU wishlist with RICE",
+  "skills": [
+    "RICE",
+    "Must-dos",
+    "Explaining priorities"
+  ],
+  "from": {
+    "name": "Sophie Martens",
+    "role": "BU eCommerce Manager"
+  },
+  "context": "The quarterly planning session is next week. Three BUs sent wishlists, and the data analyst (Lena) prepared RICE inputs for the six biggest items. Legal also flagged the **consent update** with a fixed regulatory deadline this quarter.\n\nYou need to bring a **ranked list** and be able to explain it in two minutes.",
+  "data": [
+    {
+      "title": "RICE inputs (per quarter)",
+      "columns": [
+        "Item",
+        "Reach",
+        "Impact",
+        "Confidence",
+        "Effort (person-months)"
+      ],
+      "rows": [
+        [
+          "Replenishment reminders",
+          "50,000",
+          "1",
+          "50%",
+          "4"
+        ],
+        [
+          "Free-delivery progress message in basket",
+          "120,000",
+          "1",
+          "80%",
+          "2"
+        ],
+        [
+          "Consent banner update (legal deadline this quarter)",
+          "all visitors",
+          "–",
+          "–",
+          "1"
+        ],
+        [
+          "Loyalty points shown in basket",
+          "90,000",
+          "0.5",
+          "80%",
+          "2"
+        ],
+        [
+          "Shade selector on product page (MP)",
+          "30,000",
+          "2",
+          "80%",
+          "3"
+        ],
+        [
+          "Alternatives on zero-result search (DP)",
+          "40,000",
+          "2",
+          "80%",
+          "2"
+        ]
+      ],
+      "note": "Impact scale: 3 massive, 2 high, 1 medium, 0.5 low. RICE = Reach × Impact × Confidence ÷ Effort."
+    }
+  ],
+  "task": "Calculate one RICE score, rank all six items, and explain your top three plus one number you would challenge.",
+  "constraints": [
+    "Legal deadlines and money-losing issues are not scored; they go first",
+    "Show the reasoning, not just the order"
+  ],
+  "parts": [
+    {
+      "id": "rice",
+      "kind": "number",
+      "label": "RICE score: Loyalty points in basket",
+      "prompt": "Calculate the RICE score for \"Loyalty points shown in basket\".",
+      "answer": 18000,
+      "tolerance": 0,
+      "explanation": "90,000 × 0.5 × 0.8 ÷ 2 = 18,000."
+    },
+    {
+      "id": "rank",
+      "kind": "rank",
+      "label": "Your ranking",
+      "prompt": "Drag the items into priority order (top = first).",
+      "items": [
+        {
+          "id": "repl",
+          "label": "Replenishment reminders"
+        },
+        {
+          "id": "free",
+          "label": "Free-delivery progress message"
+        },
+        {
+          "id": "consent",
+          "label": "Consent banner update (legal)"
+        },
+        {
+          "id": "loyalty",
+          "label": "Loyalty points in basket"
+        },
+        {
+          "id": "shade",
+          "label": "Shade selector (MP)"
+        },
+        {
+          "id": "zero",
+          "label": "Zero-result alternatives (DP)"
+        }
+      ],
+      "expectedOrder": [
+        "consent",
+        "free",
+        "zero",
+        "loyalty",
+        "shade",
+        "repl"
+      ],
+      "mustTop": [
+        "consent"
+      ],
+      "explanation": "RICE: free delivery 48,000 · zero-result 32,000 · loyalty 18,000 · shade 16,000 · replenishment 6,250. The legal item goes first regardless."
+    },
+    {
+      "id": "why",
+      "kind": "text",
+      "label": "Your explanation",
+      "prompt": "Explain your top three in plain words, and name one number you would challenge or validate before committing.",
+      "minWords": 40,
+      "rows": 6
+    }
+  ],
+  "keypoints": [
+    {
+      "id": "legal",
+      "label": "Legal deadline explained as a must-do",
+      "part": "why",
+      "anyOf": [
+        "legal",
+        "deadline",
+        "regulat",
+        "compliance",
+        "gdpr",
+        "consent"
+      ]
+    },
+    {
+      "id": "rice",
+      "label": "Refers to RICE / reach and effort",
+      "part": "why",
+      "anyOf": [
+        "rice",
+        "reach",
+        "effort",
+        "score"
+      ]
+    },
+    {
+      "id": "conf",
+      "label": "Challenges an assumption or confidence level",
+      "part": "why",
+      "anyOf": [
+        "confidence",
+        "assumption",
+        "validate",
+        "challenge",
+        "evidence",
+        "test",
+        "a/b"
+      ]
+    },
+    {
+      "id": "shade",
+      "label": "Notes the shade selector's high impact but low reach",
+      "part": "why",
+      "anyOf": [
+        "shade",
+        "impact of 2",
+        "high impact",
+        "prestige"
+      ]
+    }
+  ],
+  "rubric": [
+    {
+      "id": "calc",
+      "criterion": "RICE calculated correctly",
+      "weight": 15,
+      "full": "18,000",
+      "partial": "Method right, arithmetic off"
+    },
+    {
+      "id": "must",
+      "criterion": "Must-do first",
+      "weight": 25,
+      "full": "Consent update on top, with reason",
+      "partial": "On top but no reason"
+    },
+    {
+      "id": "order",
+      "criterion": "Ranking follows the evidence",
+      "weight": 25,
+      "full": "Matches RICE order or justified deviations",
+      "partial": "Some unexplained jumps"
+    },
+    {
+      "id": "explain",
+      "criterion": "Clear explanation",
+      "weight": 20,
+      "full": "Short, plain, one reason per item",
+      "partial": "Long or jargon-heavy"
+    },
+    {
+      "id": "challenge",
+      "criterion": "Challenges an assumption",
+      "weight": 15,
+      "full": "Names a specific number and how to validate it",
+      "partial": "Generic \"we should validate\""
+    }
+  ],
+  "hints": [
+    "Before any maths: is there an item whose deadline is set by law? It goes first whatever its score.",
+    "Calculate RICE for every scored item: Reach × Impact × Confidence ÷ Effort. Then sort high to low.",
+    "Scores: free delivery 48,000; zero-result 32,000; loyalty 18,000; shade 16,000; replenishment 6,250. A good challenge: replenishment has only 50% confidence and the shade selector's impact \"2\" is a guess. How could you test them cheaply?"
+  ],
+  "modelAnswer": "**RICE (loyalty):** 90,000 × 0.5 × 0.8 ÷ 2 = **18,000**\n\n**Ranking**\n1. Consent banner update: legal deadline this quarter, so it's a must-do and isn't scored\n2. Free-delivery progress message: 48,000\n3. Zero-result alternatives: 32,000\n4. Loyalty points in basket: 18,000\n5. Shade selector: 16,000\n6. Replenishment reminders: 6,250\n\n**Explanation (example)**\n> The consent update goes first because the deadline is regulatory; missing it risks fines. Next is the free-delivery message: it reaches the most shoppers for little effort (48k). Zero-result alternatives follow: high impact for searchers who currently convert at 0.9%. I'd challenge the shade selector's impact of 2: it's a guess from the BU. A quick usability test or A/B test on one product range would tell us before we commit 3 person-months.",
+  "commonMistakes": [
+    "Scoring the legal item and letting it sink",
+    "Multiplying effort instead of dividing by it",
+    "Using 80 instead of 0.8 for confidence (it works for ranking but confuses stakeholders)",
+    "Presenting the scores as facts rather than estimates with assumptions"
+  ]
+}

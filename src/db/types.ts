@@ -90,3 +90,26 @@ export interface MetaRow {
   key: string;
   value: unknown;
 }
+
+export type AttemptStep = 'brief' | 'answer' | 'check' | 'compare';
+
+export interface ScoreRecord {
+  at: number;
+  autoScore: number;
+  selfScore: number;
+  hintsUsed: number;
+}
+
+/** One working attempt per scenario (id = scenario id), plus the history of completed runs. */
+export interface Attempt {
+  id: string;
+  scenarioId: string;
+  step: AttemptStep;
+  answers: Record<string, unknown>;
+  hintsUsed: number;
+  selfRubric: Record<string, number>;
+  checkedAt: number | null;
+  startedAt: number;
+  updatedAt: number;
+  history: ScoreRecord[];
+}

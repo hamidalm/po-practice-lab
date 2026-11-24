@@ -1,0 +1,242 @@
+{
+  "id": "B4-pick-analysis-tool",
+  "track": "B",
+  "difficulty": 1,
+  "lessonId": "analysis-tools",
+  "title": "Pick the right analysis tool",
+  "skills": [
+    "Analysis techniques",
+    "State models"
+  ],
+  "from": {
+    "name": "Lena Vos",
+    "role": "Data Analyst"
+  },
+  "context": "Several questions are waiting in your inbox across different initiatives. Each one is best answered with a different analysis tool. Choose wisely; then sketch one of them.",
+  "data": [
+    {
+      "title": "Tools available",
+      "columns": [
+        "Tool",
+        "Best for"
+      ],
+      "rows": [
+        [
+          "Journey map",
+          "Customer experience across steps and channels"
+        ],
+        [
+          "Process map",
+          "Internal steps and who does what"
+        ],
+        [
+          "Use case",
+          "User–system interaction with alternative flows"
+        ],
+        [
+          "State model",
+          "Statuses and transitions over time"
+        ],
+        [
+          "Decision table",
+          "Combinations of conditions and rules"
+        ],
+        [
+          "Field list",
+          "Data fields, mandatory, validation"
+        ],
+        [
+          "Wireframe",
+          "Layout and placement on a screen"
+        ]
+      ]
+    }
+  ],
+  "task": "Match each question to the best tool, then build a simple state model for a reservation.",
+  "constraints": [
+    "One best tool per question",
+    "The state model can be written as text: statuses and the events that move between them"
+  ],
+  "parts": [
+    {
+      "id": "match",
+      "kind": "match",
+      "label": "Match questions to tools",
+      "prompt": "Choose the best tool for each question.",
+      "rows": [
+        {
+          "id": "q1",
+          "label": "What happens to a reservation from \"reserved\" to \"collected\", \"expired\" or \"cancelled\"?"
+        },
+        {
+          "id": "q2",
+          "label": "Which promotion applies when a shopper has a loyalty voucher, a 3-for-2 and a staff discount?"
+        },
+        {
+          "id": "q3",
+          "label": "Where do shoppers get frustrated between seeing an ad and receiving their order?"
+        },
+        {
+          "id": "q4",
+          "label": "What do store staff do between a reservation arriving and the item being ready on the pickup shelf?"
+        },
+        {
+          "id": "q5",
+          "label": "Which data does the marketplace seller onboarding form need, and how is each field validated?"
+        },
+        {
+          "id": "q6",
+          "label": "How does a shopper return an online order in store, step by step, including alternatives?"
+        },
+        {
+          "id": "q7",
+          "label": "Where does the shade selector sit on the product page, and how does it look on mobile?"
+        }
+      ],
+      "options": [
+        {
+          "id": "journey",
+          "label": "Journey map"
+        },
+        {
+          "id": "process",
+          "label": "Process map"
+        },
+        {
+          "id": "usecase",
+          "label": "Use case"
+        },
+        {
+          "id": "state",
+          "label": "State model"
+        },
+        {
+          "id": "decision",
+          "label": "Decision table"
+        },
+        {
+          "id": "fields",
+          "label": "Field list"
+        },
+        {
+          "id": "wireframe",
+          "label": "Wireframe"
+        }
+      ],
+      "answers": {
+        "q1": "state",
+        "q2": "decision",
+        "q3": "journey",
+        "q4": "process",
+        "q5": "fields",
+        "q6": "usecase",
+        "q7": "wireframe"
+      },
+      "explanations": {
+        "q1": "Statuses and the events between them form a state model.",
+        "q2": "Combinations of conditions call for a decision table.",
+        "q3": "The customer's experience across touchpoints calls for a journey map.",
+        "q4": "Internal roles and steps call for a process map (swimlanes).",
+        "q5": "Fields, mandatory or not, and validation go in a field list.",
+        "q6": "An actor interacting with the system, with alternatives, is a use case.",
+        "q7": "Placement and layout call for a wireframe."
+      }
+    },
+    {
+      "id": "state",
+      "kind": "text",
+      "label": "State model: reservation",
+      "prompt": "List the statuses of a reservation and the events that move it between them (e.g. \"Reserved → Expired: hold time passes\").",
+      "minWords": 25,
+      "rows": 7
+    }
+  ],
+  "keypoints": [
+    {
+      "id": "s-reserved",
+      "label": "Reserved",
+      "part": "state",
+      "anyOf": [
+        "reserved"
+      ]
+    },
+    {
+      "id": "s-ready",
+      "label": "Ready for pickup",
+      "part": "state",
+      "anyOf": [
+        "ready"
+      ]
+    },
+    {
+      "id": "s-collected",
+      "label": "Collected",
+      "part": "state",
+      "anyOf": [
+        "collected",
+        "picked up"
+      ]
+    },
+    {
+      "id": "s-expired",
+      "label": "Expired (hold time passes)",
+      "part": "state",
+      "anyOf": [
+        "expired"
+      ]
+    },
+    {
+      "id": "s-cancelled",
+      "label": "Cancelled (by shopper or store)",
+      "part": "state",
+      "anyOf": [
+        "cancel"
+      ]
+    },
+    {
+      "id": "s-event",
+      "label": "Names the events between statuses",
+      "part": "state",
+      "anyOf": [
+        ":",
+        "when",
+        "after",
+        "because"
+      ]
+    }
+  ],
+  "rubric": [
+    {
+      "id": "match",
+      "criterion": "Right tool for each question",
+      "weight": 50,
+      "full": "6–7 correct",
+      "partial": "4–5 correct"
+    },
+    {
+      "id": "states",
+      "criterion": "Complete statuses",
+      "weight": 25,
+      "full": "Happy path plus expired and cancelled",
+      "partial": "Happy path only"
+    },
+    {
+      "id": "events",
+      "criterion": "Transitions have triggers",
+      "weight": 25,
+      "full": "Each arrow has an event",
+      "partial": "Statuses listed without events"
+    }
+  ],
+  "hints": [
+    "Listen to the shape of the question: \"what status\", \"which rule wins\", \"where frustrated\", \"who does what\", \"which fields\", \"how does the user interact\", \"where on the screen\".",
+    "The two most confused pairs: process map (internal steps) vs journey map (customer experience), and use case (interaction) vs process map.",
+    "Answers: state, decision table, journey, process, field list, use case, wireframe. State model: Requested → Reserved → Ready for pickup → Collected; Reserved/Ready → Expired (hold passes); → Cancelled (shopper or store)."
+  ],
+  "modelAnswer": "**Matching:** q1 State model · q2 Decision table · q3 Journey map · q4 Process map · q5 Field list · q6 Use case · q7 Wireframe\n\n**State model: reservation**\n| From | Event | To |\n|---|---|---|\n| — | Shopper confirms reservation | **Reserved** |\n| Reserved | Store picks the item and puts it on the shelf | **Ready for pickup** |\n| Ready for pickup | Shopper collects and pays | **Collected** |\n| Reserved / Ready for pickup | Hold time passes | **Expired** (stock released) |\n| Reserved / Ready for pickup | Shopper or store cancels | **Cancelled** (stock released) |\n| Reserved | Store can't find the item | **Cancelled**, with an apology email |",
+  "commonMistakes": [
+    "Process map for status questions",
+    "Prose for promo combinations instead of a decision table",
+    "State model with only the happy path"
+  ]
+}

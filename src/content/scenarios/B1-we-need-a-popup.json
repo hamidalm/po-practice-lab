@@ -1,0 +1,323 @@
+{
+  "id": "B1-we-need-a-popup",
+  "track": "B",
+  "difficulty": 1,
+  "lessonId": "problem-framing",
+  "title": "\"We need a pop-up\": find the real problem",
+  "skills": [
+    "Discovery questions",
+    "Problem statement",
+    "Metrics and guardrails"
+  ],
+  "from": {
+    "name": "Sophie Martens",
+    "role": "BU eCommerce Manager, Drogisterij Prijs"
+  },
+  "context": "Sophie emails: *\"Our competitor shows a pop-up with a discount code when people want to leave the site. We need the same before the December campaign. Should be easy.\"*\n\nBefore you put anything in the backlog, you ask Lena (data analyst) for numbers on Drogisterij Prijs.",
+  "data": [
+    {
+      "title": "Drogisterij Prijs, last 30 days",
+      "columns": [
+        "Metric",
+        "Mobile",
+        "Desktop"
+      ],
+      "rows": [
+        [
+          "Share of sessions",
+          "72%",
+          "28%"
+        ],
+        [
+          "Exit rate on basket page",
+          "38%",
+          "22%"
+        ],
+        [
+          "Basket → order conversion",
+          "31%",
+          "47%"
+        ],
+        [
+          "Average order value",
+          "€24",
+          "€29"
+        ],
+        [
+          "Baskets per week",
+          "9,000",
+          "3,500"
+        ]
+      ]
+    },
+    {
+      "title": "Other facts",
+      "columns": [
+        "Source",
+        "Fact"
+      ],
+      "rows": [
+        [
+          "Exit survey (n=1,200)",
+          "Top reason for leaving the basket: \"unexpected delivery costs\" (41%)"
+        ],
+        [
+          "Site",
+          "Delivery cost (€3.95, free above €20) is shown only at checkout step 2"
+        ],
+        [
+          "Finance",
+          "Average gross margin 28%; a 10% code would cost most of the margin on small orders"
+        ],
+        [
+          "Legal",
+          "Collecting emails in a pop-up for marketing needs explicit consent"
+        ]
+      ]
+    }
+  ],
+  "task": "Prepare the questions for Sophie, then write the problem statement, goal and success metric, and the guardrails.",
+  "constraints": [
+    "Do not design the solution yet",
+    "Use the numbers",
+    "Metrics need a baseline, target and timeframe"
+  ],
+  "parts": [
+    {
+      "id": "questions",
+      "kind": "text",
+      "label": "Questions for Sophie",
+      "prompt": "List at least 4 open questions you would ask Sophie before agreeing to anything.",
+      "minWords": 20,
+      "rows": 6,
+      "checks": [
+        "questions"
+      ]
+    },
+    {
+      "id": "problem",
+      "kind": "text",
+      "label": "Problem statement",
+      "prompt": "Who has what problem, the evidence, and the impact.",
+      "minWords": 30,
+      "rows": 5,
+      "checks": [
+        "vague"
+      ]
+    },
+    {
+      "id": "metric",
+      "kind": "text",
+      "label": "Goal and success metric",
+      "prompt": "One-sentence goal plus a primary metric with baseline, target and timeframe.",
+      "minWords": 15,
+      "rows": 4,
+      "checks": [
+        "metric"
+      ]
+    },
+    {
+      "id": "guardrails",
+      "kind": "text",
+      "label": "Guardrails",
+      "prompt": "Which metrics must not get worse? Name at least three.",
+      "minWords": 15,
+      "rows": 4
+    }
+  ],
+  "keypoints": [
+    {
+      "id": "q-problem",
+      "label": "Asks what problem she sees",
+      "part": "questions",
+      "anyOf": [
+        "problem",
+        "why",
+        "what are you seeing",
+        "what happens"
+      ]
+    },
+    {
+      "id": "q-data",
+      "label": "Asks for evidence",
+      "part": "questions",
+      "anyOf": [
+        "data",
+        "evidence",
+        "numbers",
+        "how do you know",
+        "show"
+      ]
+    },
+    {
+      "id": "q-success",
+      "label": "Asks how success is measured",
+      "part": "questions",
+      "anyOf": [
+        "success",
+        "measure",
+        "know it worked",
+        "kpi",
+        "target"
+      ]
+    },
+    {
+      "id": "q-margin",
+      "label": "Asks about discount cost / margin",
+      "part": "questions",
+      "anyOf": [
+        "margin",
+        "cost",
+        "budget",
+        "afford"
+      ]
+    },
+    {
+      "id": "p-mobile",
+      "label": "Mobile shoppers identified",
+      "part": "problem",
+      "anyOf": [
+        "mobile"
+      ]
+    },
+    {
+      "id": "p-basket",
+      "label": "Basket exit as the problem",
+      "part": "problem",
+      "anyOf": [
+        "basket",
+        "abandon",
+        "exit",
+        "leave"
+      ]
+    },
+    {
+      "id": "p-numbers",
+      "label": "Uses the evidence (38% vs 22% or 31% vs 47%)",
+      "part": "problem",
+      "anyOf": [
+        "38%",
+        "38 %",
+        "31%",
+        "22%",
+        "47%"
+      ]
+    },
+    {
+      "id": "p-delivery",
+      "label": "Spots the hidden delivery cost",
+      "part": "problem",
+      "anyOf": [
+        "delivery cost",
+        "delivery fee",
+        "shipping",
+        "unexpected",
+        "€3.95",
+        "3.95"
+      ]
+    },
+    {
+      "id": "m-conv",
+      "label": "Metric on basket conversion",
+      "part": "metric",
+      "anyOf": [
+        "conversion",
+        "basket to order",
+        "basket-to-order",
+        "orders"
+      ]
+    },
+    {
+      "id": "g-margin",
+      "label": "Margin guardrail",
+      "part": "guardrails",
+      "anyOf": [
+        "margin",
+        "discount cost",
+        "profit"
+      ]
+    },
+    {
+      "id": "g-speed",
+      "label": "Page speed guardrail",
+      "part": "guardrails",
+      "anyOf": [
+        "speed",
+        "lcp",
+        "load"
+      ]
+    },
+    {
+      "id": "g-seo",
+      "label": "SEO / intrusive interstitial guardrail",
+      "part": "guardrails",
+      "anyOf": [
+        "seo",
+        "google",
+        "interstitial",
+        "ranking"
+      ]
+    },
+    {
+      "id": "g-consent",
+      "label": "Consent / GDPR guardrail",
+      "part": "guardrails",
+      "anyOf": [
+        "consent",
+        "gdpr",
+        "privacy",
+        "unsubscribe",
+        "complaint"
+      ]
+    }
+  ],
+  "rubric": [
+    {
+      "id": "q",
+      "criterion": "Discovery questions",
+      "weight": 20,
+      "full": "Open, about problem, evidence, users, success, cost",
+      "partial": "Mostly about the pop-up itself"
+    },
+    {
+      "id": "problem",
+      "criterion": "Problem statement",
+      "weight": 25,
+      "full": "Specific users, problem, evidence, impact",
+      "partial": "Restates the solution or no numbers"
+    },
+    {
+      "id": "metric",
+      "criterion": "Metric",
+      "weight": 20,
+      "full": "Baseline → target → timeframe on the right metric",
+      "partial": "Missing one element"
+    },
+    {
+      "id": "guard",
+      "criterion": "Guardrails",
+      "weight": 20,
+      "full": "3+ relevant guardrails (margin, speed/SEO, consent)",
+      "partial": "1–2"
+    },
+    {
+      "id": "neutral",
+      "criterion": "Solution-neutral",
+      "weight": 15,
+      "full": "Keeps options open (e.g. show delivery cost earlier)",
+      "partial": "Commits to the pop-up"
+    }
+  ],
+  "hints": [
+    "Ignore the pop-up for a moment. What is actually going wrong, for whom, and what does the data say?",
+    "Compare mobile and desktop on the basket page, and read the exit survey and the \"Other facts\" carefully. Is there a cause hiding there?",
+    "Problem: mobile shoppers leave the basket (38% vs 22%), and the top reason is unexpected delivery cost, shown only at step 2. Metric: mobile basket→order conversion 31% → 34% within 8 weeks. Guardrails: margin, page speed/SEO, consent/unsubscribes."
+  ],
+  "modelAnswer": "**Questions for Sophie**\n- What are you seeing that makes you want this now? Which numbers?\n- Which shoppers do you want to keep: new, returning, mobile?\n- What would success look like in numbers, and by when?\n- How much discount can we afford per order, and has finance agreed?\n- Have you seen data on whether the competitor's pop-up works for them?\n\n**Problem statement**\n> Mobile shoppers on Drogisterij Prijs abandon the basket far more than desktop shoppers (38% vs 22% exit; 31% vs 47% conversion). The top reason in the exit survey is unexpected delivery costs (41%); the €3.95 fee is only shown at checkout step 2. With 9,000 mobile baskets a week at €24, closing a third of the conversion gap is worth roughly €12k a week.\n\n**Goal and metric**\n> Goal: fewer mobile shoppers leave the basket because of surprises.\n> Metric: mobile basket→order conversion from **31% to 34% within 8 weeks** of launch.\n\n**Guardrails**\n- Gross margin per order doesn't fall by more than 1 pt\n- Mobile page speed (LCP) and SEO don't get worse (Google penalises intrusive mobile pop-ups)\n- No consent issues; unsubscribe and complaint rates stable\n\n**Note:** the data suggests trying *show delivery cost and the free-delivery threshold in the basket* before a discount pop-up.",
+  "commonMistakes": [
+    "Writing a story for the pop-up straight away",
+    "A metric like \"more conversion\" without baseline, target or timeframe",
+    "Forgetting margin: a discount can \"win\" conversion and lose money",
+    "Missing the delivery-cost clue in the data"
+  ]
+}

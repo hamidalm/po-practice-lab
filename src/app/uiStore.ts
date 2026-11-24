@@ -12,6 +12,8 @@ interface UiState {
   createDefaults: CreateDefaults | null;
   openCreate: (d?: CreateDefaults) => void;
   closeCreate: () => void;
+  activeScenarioId: string | null;
+  setActiveScenario: (id: string | null) => void;
 }
 
 export const useUi = create<UiState>((set) => ({
@@ -23,4 +25,6 @@ export const useUi = create<UiState>((set) => ({
   createDefaults: null,
   openCreate: (d = {}) => set({ createDefaults: d }),
   closeCreate: () => set({ createDefaults: null }),
+  activeScenarioId: null,
+  setActiveScenario: (id) => set({ activeScenarioId: id }),
 }));

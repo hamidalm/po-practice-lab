@@ -6,6 +6,10 @@ import IssueDrawer from '../features/board/IssueDrawer';
 import CreateIssueModal from '../features/board/CreateIssueModal';
 import AssistantPanel from '../features/assistant/AssistantPanel';
 
+const LEARNING = [
+  { to: '/practice', label: 'Practice', icon: '◎' },
+  { to: '/learn', label: 'Learn', icon: '❖' },
+];
 const NAV = [
   { to: '/backlog', label: 'Backlog', icon: '☰' },
   { to: '/board', label: 'Sprint board', icon: '▦' },
@@ -13,6 +17,14 @@ const NAV = [
   { to: '/inbox', label: 'Inbox', icon: '✉' },
   { to: '/settings', label: 'Settings', icon: '⚙' },
 ];
+
+function NavItem({ to, label, icon }: { to: string; label: string; icon: string }) {
+  return (
+    <NavLink to={to} className={({ isActive }) => `flex items-center gap-2 rounded px-2 py-1.5 text-sm ${isActive ? 'bg-brand-50 font-medium text-brand-700' : 'text-ink-700 hover:bg-ink-100'}`}>
+      <span className="w-4 text-center">{icon}</span>{label}
+    </NavLink>
+  );
+}
 
 export default function Layout() {
   const { assistantOpen, toggleAssistant, openCreate } = useUi();
@@ -35,7 +47,9 @@ export default function Layout() {
       </header>
       <div className="flex min-h-0 flex-1">
         <nav className="w-52 shrink-0 border-r border-ink-300/60 bg-ink-100/60 p-2">
-          <p className="px-2 pb-2 pt-1 text-xs font-semibold uppercase text-ink-500">Digital team</p>
+          <p className="px-2 pb-2 pt-1 text-xs font-semibold uppercase text-ink-500">Learning</p>
+          {LEARNING.map((n) => <NavItem key={n.to} {...n} />)}
+          <p className="mt-4 px-2 pb-2 pt-1 text-xs font-semibold uppercase text-ink-500">Digital team</p>
           {NAV.map((n) => (
             <NavLink
               key={n.to}

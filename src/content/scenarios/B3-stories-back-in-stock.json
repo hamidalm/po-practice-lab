@@ -1,0 +1,227 @@
+{
+  "id": "B3-stories-back-in-stock",
+  "track": "B",
+  "difficulty": 2,
+  "lessonId": "stories-ac",
+  "title": "Stories and acceptance criteria: back-in-stock alerts",
+  "skills": [
+    "User stories",
+    "Given/When/Then",
+    "Edge cases"
+  ],
+  "from": {
+    "name": "Tom Becker",
+    "role": "QA Analyst"
+  },
+  "context": "The epic is refined and the business rules are agreed (below). Tom (QA) asks you for **stories with testable acceptance criteria** so he can write test cases. *\"Please think about the edge cases. That's where it always breaks.\"*",
+  "data": [
+    {
+      "title": "Business rules",
+      "columns": [
+        "Rule",
+        "Description"
+      ],
+      "rows": [
+        [
+          "R1",
+          "Sign-up only for out-of-stock products that are not discontinued"
+        ],
+        [
+          "R2",
+          "Alerts are per variant (shade/size)"
+        ],
+        [
+          "R3",
+          "Guests sign up with an email address; logged-in shoppers with one click"
+        ],
+        [
+          "R4",
+          "Max one active alert per shopper per variant"
+        ],
+        [
+          "R5",
+          "Alert email sent within 1 hour after stock returns, only if available stock is at least 3 units"
+        ],
+        [
+          "R6",
+          "Alerts expire after 90 days"
+        ],
+        [
+          "R7",
+          "Service email: no marketing consent needed, so it must not contain promotions; includes an unsubscribe link"
+        ]
+      ]
+    }
+  ],
+  "task": "Write 3–6 user stories, each with at least 3 Given/When/Then acceptance criteria. Cover the rules and the edge cases.",
+  "constraints": [
+    "Specific users, not \"a user\"",
+    "Describe needs, not buttons",
+    "One action per \"When\""
+  ],
+  "parts": [
+    {
+      "id": "stories",
+      "kind": "stories",
+      "label": "Your stories",
+      "prompt": "Write 3–6 stories with at least 3 acceptance criteria each.",
+      "minStories": 3,
+      "maxStories": 6,
+      "minAcPerStory": 3
+    }
+  ],
+  "keypoints": [
+    {
+      "id": "r1",
+      "label": "R1 discontinued / in stock: no sign-up",
+      "part": "stories",
+      "anyOf": [
+        "discontinued",
+        "in stock, ",
+        "is in stock",
+        "no longer sold"
+      ]
+    },
+    {
+      "id": "r2",
+      "label": "R2 per variant / shade",
+      "part": "stories",
+      "anyOf": [
+        "shade",
+        "variant",
+        "size"
+      ]
+    },
+    {
+      "id": "r3",
+      "label": "R3 guest with email",
+      "part": "stories",
+      "anyOf": [
+        "guest",
+        "not logged in",
+        "logged out"
+      ]
+    },
+    {
+      "id": "r4",
+      "label": "R4 duplicate sign-up",
+      "part": "stories",
+      "anyOf": [
+        "already",
+        "duplicate",
+        "twice"
+      ]
+    },
+    {
+      "id": "r5a",
+      "label": "R5 sent within 1 hour",
+      "part": "stories",
+      "anyOf": [
+        "1 hour",
+        "one hour",
+        "within an hour",
+        "60 minutes"
+      ]
+    },
+    {
+      "id": "r5b",
+      "label": "R5 minimum 3 units",
+      "part": "stories",
+      "anyOf": [
+        "3 units",
+        "at least 3",
+        "fewer than 3",
+        "less than 3",
+        "below 3",
+        "≥ 3",
+        ">= 3",
+        "three units"
+      ]
+    },
+    {
+      "id": "r6",
+      "label": "R6 expiry after 90 days",
+      "part": "stories",
+      "anyOf": [
+        "90 days",
+        "expire"
+      ]
+    },
+    {
+      "id": "r7a",
+      "label": "R7 no promotions in the email",
+      "part": "stories",
+      "anyOf": [
+        "promotion",
+        "marketing",
+        "no offers",
+        "discount"
+      ]
+    },
+    {
+      "id": "r7b",
+      "label": "R7 unsubscribe",
+      "part": "stories",
+      "anyOf": [
+        "unsubscribe"
+      ]
+    },
+    {
+      "id": "invalid",
+      "label": "Invalid email handled",
+      "part": "stories",
+      "anyOf": [
+        "invalid"
+      ]
+    }
+  ],
+  "rubric": [
+    {
+      "id": "format",
+      "criterion": "Story format",
+      "weight": 15,
+      "full": "Specific user, need not UI, real benefit",
+      "partial": "Generic role or UI-led"
+    },
+    {
+      "id": "gwt",
+      "criterion": "Acceptance criteria are testable",
+      "weight": 25,
+      "full": "One action, observable result, numbers where rules have them",
+      "partial": "Some vague or compound"
+    },
+    {
+      "id": "rules",
+      "criterion": "Business rules covered",
+      "weight": 25,
+      "full": "All seven rules traceable to ACs",
+      "partial": "4–6 rules"
+    },
+    {
+      "id": "edge",
+      "criterion": "Edge cases",
+      "weight": 20,
+      "full": "Guest, duplicate, invalid email, low stock, expiry",
+      "partial": "Some"
+    },
+    {
+      "id": "slice",
+      "criterion": "Sensible slicing",
+      "weight": 15,
+      "full": "Each story independently valuable",
+      "partial": "One giant story or technical slices"
+    }
+  ],
+  "hints": [
+    "Group the rules by moment in the journey: signing up, receiving the alert, after the alert.",
+    "Turn each rule into at least one \"Given … When … Then …\", and add one for what goes wrong (invalid email, signing up twice).",
+    "Three solid stories: (1) sign up for a shade (R1–R4 + invalid email), (2) receive the alert (R5 1 hour, ≥3 units, R7 no promotions + unsubscribe), (3) alert expiry and unsubscribe (R6, R7)."
+  ],
+  "modelAnswer": "**Story 1: Sign up for an alert**\nAs a shopper looking at an out-of-stock shade, I want to be told when it's back, so that I can buy it before it sells out again.\n- Given the selected shade is out of stock and not discontinued, when I sign up while logged in, then the alert is stored and I see \"We'll email you when it's back\".\n- Given I'm a guest, when I submit a valid email, then the alert is stored for that shade.\n- Given I enter an invalid email, when I submit, then I see an inline error and nothing is stored.\n- Given I already have an active alert for this shade, when I sign up again, then no duplicate is created and I see \"You're already on the list\".\n- Given the product is discontinued or in stock, when I view it, then no sign-up is offered.\n\n**Story 2: Receive the alert**\nAs a shopper with an alert, I want an email when my shade is available, so that I can order it straight away.\n- Given available stock goes from 0 to 3 or more units, when the stock update is processed, then the alert email is sent within 1 hour.\n- Given stock returns with fewer than 3 units, when the update is processed, then no email is sent and the alert stays active.\n- Given the alert email is sent, when I open it, then it shows the product and shade, a link to the product page, no promotions, and an unsubscribe link.\n\n**Story 3: Alert lifecycle**\nAs a shopper, I want alerts to stop when they're no longer relevant, so that I don't get unwanted emails.\n- Given an alert is 90 days old and the shade is still out of stock, when the daily clean-up runs, then the alert expires and no email is sent later.\n- Given I click unsubscribe in an alert email, when the page opens, then that alert is removed and I see a confirmation.\n- Given an alert email was sent, when the shade sells out again, then I am not emailed a second time for that alert.",
+  "commonMistakes": [
+    "\"As a user, I want a notify-me button…\"",
+    "One AC per story covering only the happy path",
+    "Forgetting the 3-unit minimum and the 1-hour rule",
+    "\"Then the email looks good\""
+  ]
+}

@@ -1,0 +1,376 @@
+{
+  "id": "B5-change-hold-48h",
+  "track": "B",
+  "difficulty": 3,
+  "lessonId": "change-traceability",
+  "title": "Change: reservation hold goes from 24h to 48h",
+  "skills": [
+    "Change management",
+    "Traceability",
+    "Communication"
+  ],
+  "from": {
+    "name": "Store Operations",
+    "role": "Retail operations"
+  },
+  "context": "Six weeks into the Reserve & Collect pilot, Store Operations asks to extend the hold from **24 to 48 hours**: **35% of reservations expire** before pickup, and stores have shelf space. The BU agrees. It should go live in two weeks.\n\nPriya: *\"The hold time is a back-office setting (`reservation.hold.hours`), but the store app countdown has 24h hard-coded, and so does the confirmation email text.\"*",
+  "data": [
+    {
+      "title": "Traceability view (Reserve & Collect)",
+      "columns": [
+        "Item",
+        "Type",
+        "Status",
+        "Mentions 24h?"
+      ],
+      "rows": [
+        [
+          "HB-105 Reserve an item (24h hold)",
+          "Story",
+          "Done (released)",
+          "Yes, in AC"
+        ],
+        [
+          "HB-106 Reservation confirmation email",
+          "Story",
+          "In progress",
+          "Yes, email text"
+        ],
+        [
+          "HB-107 TC: reservation expires when hold ends",
+          "Test case",
+          "Active",
+          "Yes, test step"
+        ],
+        [
+          "HB-116 TC: store list sorted by distance",
+          "Test case",
+          "Active",
+          "No"
+        ],
+        [
+          "HB-104 See store stock",
+          "Story",
+          "Done",
+          "No"
+        ],
+        [
+          "HB-130 Store app: pickup list with countdown",
+          "Story",
+          "Done",
+          "Yes, hard-coded"
+        ],
+        [
+          "reservation.hold.hours = 24",
+          "Config",
+          "Live",
+          "Yes"
+        ],
+        [
+          "PRD: Reserve & Collect",
+          "Page",
+          "–",
+          "Yes"
+        ],
+        [
+          "Customer service FAQ \"How long is my item kept?\"",
+          "Page",
+          "–",
+          "Yes"
+        ],
+        [
+          "HB-108 Apple Pay",
+          "Story",
+          "In review",
+          "No"
+        ],
+        [
+          "Dashboard: \"Expired reservations %\"",
+          "Report",
+          "Live",
+          "Baseline changes"
+        ]
+      ]
+    }
+  ],
+  "task": "Find what is affected, choose the right action for each item, and write the change note.",
+  "constraints": [
+    "Do not rewrite history of released work",
+    "Think beyond the code: stores, customer service, reporting"
+  ],
+  "parts": [
+    {
+      "id": "affected",
+      "kind": "choice",
+      "label": "Affected items",
+      "prompt": "Select every item affected by the change.",
+      "multi": true,
+      "options": [
+        {
+          "id": "hb105",
+          "label": "HB-105 Reserve an item (done)",
+          "feedback": "Its AC says 24h; the behaviour changes via config, and the story should be linked to the change."
+        },
+        {
+          "id": "hb106",
+          "label": "HB-106 Confirmation email (in progress)",
+          "feedback": "The email text says 24 hours."
+        },
+        {
+          "id": "hb107",
+          "label": "HB-107 TC: reservation expires",
+          "feedback": "The test step uses 24h."
+        },
+        {
+          "id": "hb116",
+          "label": "HB-116 TC: sorted by distance",
+          "feedback": "Not related to the hold time."
+        },
+        {
+          "id": "hb104",
+          "label": "HB-104 See store stock",
+          "feedback": "Not related to the hold time."
+        },
+        {
+          "id": "hb130",
+          "label": "HB-130 Store app countdown",
+          "feedback": "24h is hard-coded."
+        },
+        {
+          "id": "config",
+          "label": "Config reservation.hold.hours",
+          "feedback": "This is where the value lives."
+        },
+        {
+          "id": "prd",
+          "label": "PRD: Reserve & Collect",
+          "feedback": "Must reflect the current rule."
+        },
+        {
+          "id": "faq",
+          "label": "Customer service FAQ",
+          "feedback": "Customers will ask; the answer changes."
+        },
+        {
+          "id": "hb108",
+          "label": "HB-108 Apple Pay",
+          "feedback": "Not related."
+        },
+        {
+          "id": "dash",
+          "label": "Dashboard: expired reservations %",
+          "feedback": "The baseline changes; annotate the dashboard so the drop isn't misread."
+        }
+      ],
+      "correct": [
+        "hb105",
+        "hb106",
+        "hb107",
+        "hb130",
+        "config",
+        "prd",
+        "faq",
+        "dash"
+      ]
+    },
+    {
+      "id": "actions",
+      "kind": "match",
+      "label": "Action per item",
+      "prompt": "Choose the right action for each affected item.",
+      "rows": [
+        {
+          "id": "hb105",
+          "label": "HB-105 (done)"
+        },
+        {
+          "id": "hb106",
+          "label": "HB-106 (in progress)"
+        },
+        {
+          "id": "hb107",
+          "label": "HB-107 test case"
+        },
+        {
+          "id": "hb130",
+          "label": "HB-130 store app (done, hard-coded)"
+        },
+        {
+          "id": "config",
+          "label": "reservation.hold.hours"
+        },
+        {
+          "id": "faq",
+          "label": "Customer service FAQ"
+        }
+      ],
+      "options": [
+        {
+          "id": "edit",
+          "label": "Edit the existing item"
+        },
+        {
+          "id": "new",
+          "label": "New story"
+        },
+        {
+          "id": "config",
+          "label": "Config ticket"
+        },
+        {
+          "id": "test",
+          "label": "Update test case"
+        },
+        {
+          "id": "page",
+          "label": "Update page / content"
+        },
+        {
+          "id": "link",
+          "label": "Leave as is, link to the change"
+        }
+      ],
+      "answers": {
+        "hb105": "link",
+        "hb106": "edit",
+        "hb107": "test",
+        "hb130": "new",
+        "config": "config",
+        "faq": "page"
+      },
+      "explanations": {
+        "hb105": "Released work stays as history; link it to the config change so the trail is clear.",
+        "hb106": "Not done yet: edit the story and its AC now (and make the text read the value from config).",
+        "hb107": "Update the test steps to 48h and add a case for reservations made before the switch.",
+        "hb130": "Changing released behaviour needs new work: a new story (ideally reading the config value).",
+        "config": "A config ticket: no code, but it still needs testing and a go-live time.",
+        "faq": "Content update with customer service, timed with the go-live."
+      }
+    },
+    {
+      "id": "note",
+      "kind": "text",
+      "label": "Change note",
+      "prompt": "Write the change note to the team and stakeholders: what, why, when, actions, who else must act, open questions.",
+      "minWords": 60,
+      "rows": 9
+    }
+  ],
+  "keypoints": [
+    {
+      "id": "why",
+      "label": "Explains why (35% expire)",
+      "part": "note",
+      "anyOf": [
+        "35%",
+        "35 %",
+        "expire before",
+        "shelf space"
+      ]
+    },
+    {
+      "id": "when",
+      "label": "Says when it goes live",
+      "part": "note",
+      "anyOf": [
+        "go live",
+        "go-live",
+        "from ",
+        "effective",
+        "two weeks",
+        "2 weeks",
+        "date"
+      ]
+    },
+    {
+      "id": "existing",
+      "label": "Handles reservations made before the switch",
+      "part": "note",
+      "anyOf": [
+        "existing reservation",
+        "already reserved",
+        "in-flight",
+        "current reservations",
+        "made before",
+        "open reservations"
+      ]
+    },
+    {
+      "id": "stores",
+      "label": "Informs stores and customer service",
+      "part": "note",
+      "anyOf": [
+        "store",
+        "customer service"
+      ]
+    },
+    {
+      "id": "log",
+      "label": "Updates the decision log / PRD",
+      "part": "note",
+      "anyOf": [
+        "decision log",
+        "prd"
+      ]
+    },
+    {
+      "id": "dash",
+      "label": "Mentions reporting impact",
+      "part": "note",
+      "anyOf": [
+        "dashboard",
+        "report",
+        "baseline"
+      ]
+    }
+  ],
+  "rubric": [
+    {
+      "id": "impact",
+      "criterion": "Impact analysis complete",
+      "weight": 30,
+      "full": "Found code, config, tests, pages and reporting",
+      "partial": "Only stories"
+    },
+    {
+      "id": "actions",
+      "criterion": "Right vehicle per item",
+      "weight": 25,
+      "full": "No edits to released work; config + new story + test updates",
+      "partial": "Edited done stories"
+    },
+    {
+      "id": "edge",
+      "criterion": "Transition edge case",
+      "weight": 15,
+      "full": "Decides what happens to open reservations at switch-over",
+      "partial": ""
+    },
+    {
+      "id": "comms",
+      "criterion": "Communication",
+      "weight": 20,
+      "full": "What, why, when, who acts, clear and short",
+      "partial": "Missing who or when"
+    },
+    {
+      "id": "log",
+      "criterion": "Documentation",
+      "weight": 10,
+      "full": "Decision log and PRD updated",
+      "partial": ""
+    }
+  ],
+  "hints": [
+    "Search for every place \"24\" lives: config, code, text, tests, pages, reports, and in people's heads (customer service, stores).",
+    "Released work is history: you don't rewrite it, you add new work and link it. Unstarted or in-progress work can be edited.",
+    "Affected: HB-105, HB-106, HB-107, HB-130, config, PRD, FAQ, dashboard. Actions: link, edit, update test, new story, config ticket, page. Don't forget: what happens to reservations made just before the switch?"
+  ],
+  "modelAnswer": "**Affected:** HB-105, HB-106, HB-107, HB-130, config, PRD, FAQ, dashboard. **Not affected:** HB-104, HB-116, HB-108.\n\n**Actions:** HB-105 → leave, link to the change · HB-106 → edit (email reads the value from config) · HB-107 → update test + add a switch-over case · HB-130 → new story (countdown reads config) · config → config ticket · FAQ and PRD → content update.\n\n**Change note**\n> **What:** The Reserve & Collect hold goes from **24h to 48h**.\n> **Why:** 35% of reservations expire before pickup; stores have shelf space. Agreed with the BU and Store Operations.\n> **When:** go-live on [date], 06:00, before stores open.\n> **Team actions:** config ticket (hold = 48), new story for the store app countdown, update HB-106 email text (in progress), update test HB-107.\n> **Open reservations at switch-over:** keep their original 24h hold (simplest, no surprises in stores). To confirm with Store Ops.\n> **Others:** Store Ops briefs stores; customer service updates the FAQ; data annotates the \"expired %\" dashboard so the drop isn't misread.\n> **Docs:** decision log entry and PRD updated today.",
+  "commonMistakes": [
+    "Only changing the config and forgetting the hard-coded app and email text",
+    "Editing the released story HB-105",
+    "Forgetting test cases, customer service and the dashboard",
+    "Not deciding what happens to reservations made before the switch"
+  ]
+}

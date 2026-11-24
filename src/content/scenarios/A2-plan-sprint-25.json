@@ -1,0 +1,329 @@
+{
+  "id": "A2-plan-sprint-25",
+  "track": "A",
+  "difficulty": 2,
+  "lessonId": "sprint-planning",
+  "title": "Plan Sprint 25 with holidays and carry-over",
+  "skills": [
+    "Capacity",
+    "Must-dos",
+    "Sprint goal"
+  ],
+  "from": {
+    "name": "Priya Shah",
+    "role": "Tech lead"
+  },
+  "context": "Sprint 24 ends Friday. **HB-105 (Reserve an item, 8 pts)** is not finished: the team re-estimates **5 points remaining**. Sprint 25 is a 10-day sprint ending 11 December. The **peak freeze starts 14 December**: nothing is released after that until January.\n\nLegal (Marc) needs the cookie banner's **\"Reject all\" button as visible as \"Accept all\"** on all EU brand sites by **12 December**. QA says the PayPal bug for Maison Parfum guests (HB-110) is **costing about €4,000 a day**.",
+  "data": [
+    {
+      "title": "Team availability (10-day sprint)",
+      "columns": [
+        "Developer",
+        "Location",
+        "Days off"
+      ],
+      "rows": [
+        [
+          "Ana",
+          "NL",
+          "3 (holiday)"
+        ],
+        [
+          "Ben",
+          "UK",
+          "2 (holiday) + 1 public holiday"
+        ],
+        [
+          "Chloé",
+          "NL",
+          "0"
+        ],
+        [
+          "Dev",
+          "UK",
+          "1 public holiday"
+        ],
+        [
+          "Emre",
+          "NL",
+          "0"
+        ]
+      ],
+      "note": "The UK public holiday is on Monday and affects only the two UK developers (Ben and Dev)."
+    },
+    {
+      "title": "Velocity, last three sprints (full team, no holidays)",
+      "columns": [
+        "Sprint",
+        "Points done"
+      ],
+      "rows": [
+        [
+          "22",
+          28
+        ],
+        [
+          "23",
+          31
+        ],
+        [
+          "24",
+          31
+        ]
+      ]
+    },
+    {
+      "title": "Candidate items",
+      "columns": [
+        "Item",
+        "Pts",
+        "Notes"
+      ],
+      "rows": [
+        [
+          "HB-105 Reserve an item (carry-over)",
+          5,
+          "Sprint goal of S24 continues; remaining work"
+        ],
+        [
+          "HB-110 PayPal missing for MP guests",
+          3,
+          "≈ €4,000/day lost"
+        ],
+        [
+          "Consent banner \"Reject all\" visibility",
+          5,
+          "Legal deadline 12 Dec"
+        ],
+        [
+          "SAP Commerce quarterly patch",
+          3,
+          "Must ship before peak freeze"
+        ],
+        [
+          "HB-106 Reservation confirmation email",
+          3,
+          "Needed to launch Reserve & Collect pilot"
+        ],
+        [
+          "HB-109 PayPal express from basket",
+          8,
+          "Ready"
+        ],
+        [
+          "HB-111 Alternatives on zero-result search",
+          5,
+          "Ready"
+        ],
+        [
+          "HB-112 Zero-result analytics event",
+          2,
+          "Ready; needed to measure HB-111"
+        ],
+        [
+          "HB-115 Back-in-stock sign-up",
+          8,
+          "No ACs; \"8\" is a BU guess"
+        ],
+        [
+          "Shade selector redesign (MP)",
+          8,
+          "Ready; BU wants it \"soon\""
+        ]
+      ]
+    }
+  ],
+  "task": "Calculate the realistic capacity, choose the items for Sprint 25 and write the sprint goal.",
+  "constraints": [
+    "Stay within capacity (±1 point)",
+    "Only ready items",
+    "The goal must be an outcome, not a list of tickets"
+  ],
+  "parts": [
+    {
+      "id": "capacity",
+      "kind": "number",
+      "label": "Capacity in story points",
+      "prompt": "How many points can the team realistically take on? Use the average velocity and available developer-days.",
+      "unit": "pts",
+      "answer": 26,
+      "tolerance": 1,
+      "explanation": "5 developers × 10 days = 50 dev-days. Days off: Ana 3 + Ben 3 + Dev 1 = 7, so 43 available. Average velocity 30 × 43/50 ≈ 25.8 → 26 points."
+    },
+    {
+      "id": "items",
+      "kind": "select",
+      "label": "Sprint 25 scope",
+      "prompt": "Select the items for the sprint. The running total is shown.",
+      "capacity": 26,
+      "items": [
+        {
+          "id": "carry",
+          "label": "HB-105 Reserve an item (carry-over)",
+          "points": 5
+        },
+        {
+          "id": "bug",
+          "label": "HB-110 PayPal missing for MP guests",
+          "points": 3,
+          "detail": "≈ €4,000/day lost"
+        },
+        {
+          "id": "legal",
+          "label": "Consent banner \"Reject all\" visibility",
+          "points": 5,
+          "detail": "Legal deadline 12 Dec"
+        },
+        {
+          "id": "patch",
+          "label": "SAP Commerce quarterly patch",
+          "points": 3,
+          "detail": "Before peak freeze"
+        },
+        {
+          "id": "email",
+          "label": "HB-106 Reservation confirmation email",
+          "points": 3
+        },
+        {
+          "id": "ppx",
+          "label": "HB-109 PayPal express from basket",
+          "points": 8
+        },
+        {
+          "id": "zero",
+          "label": "HB-111 Alternatives on zero-result search",
+          "points": 5
+        },
+        {
+          "id": "event",
+          "label": "HB-112 Zero-result analytics event",
+          "points": 2
+        },
+        {
+          "id": "bis",
+          "label": "HB-115 Back-in-stock sign-up",
+          "points": 8,
+          "detail": "No ACs, BU guess"
+        },
+        {
+          "id": "shade",
+          "label": "Shade selector redesign (MP)",
+          "points": 8
+        }
+      ],
+      "mustInclude": [
+        {
+          "id": "carry",
+          "reason": "Committed work toward the Reserve & Collect pilot; re-estimated remaining work continues."
+        },
+        {
+          "id": "bug",
+          "reason": "It loses about €4,000 a day: money-losing bugs come first."
+        },
+        {
+          "id": "legal",
+          "reason": "Legal deadline (12 Dec) falls inside this sprint."
+        },
+        {
+          "id": "patch",
+          "reason": "After 14 Dec nothing ships until January."
+        }
+      ],
+      "mustExclude": [
+        {
+          "id": "bis",
+          "reason": "Not ready: no acceptance criteria and no team estimate."
+        }
+      ]
+    },
+    {
+      "id": "goal",
+      "kind": "text",
+      "label": "Sprint goal",
+      "prompt": "Write the sprint goal in one or two sentences.",
+      "minWords": 10,
+      "rows": 3,
+      "checks": [
+        "vague"
+      ]
+    }
+  ],
+  "keypoints": [
+    {
+      "id": "g-reserve",
+      "label": "Goal mentions the Reserve & Collect outcome",
+      "part": "goal",
+      "anyOf": [
+        "reserv",
+        "collect",
+        "pick up",
+        "pickup"
+      ]
+    },
+    {
+      "id": "g-safe",
+      "label": "Goal covers checkout/compliance safety before the freeze",
+      "part": "goal",
+      "anyOf": [
+        "paypal",
+        "checkout",
+        "consent",
+        "legal",
+        "compliant",
+        "freeze",
+        "cookie"
+      ]
+    }
+  ],
+  "rubric": [
+    {
+      "id": "cap",
+      "criterion": "Capacity calculated correctly",
+      "weight": 20,
+      "full": "About 26 points with the working shown",
+      "partial": "Holidays considered but maths off"
+    },
+    {
+      "id": "must",
+      "criterion": "Must-dos are in",
+      "weight": 25,
+      "full": "Carry-over, money-losing bug, legal deadline and pre-freeze patch",
+      "partial": "Some missing"
+    },
+    {
+      "id": "ready",
+      "criterion": "Only ready work",
+      "weight": 15,
+      "full": "HB-115 left out",
+      "partial": ""
+    },
+    {
+      "id": "fit",
+      "criterion": "Scope fits capacity",
+      "weight": 15,
+      "full": "Within capacity and well used",
+      "partial": "Over, or lots of unused room"
+    },
+    {
+      "id": "goal",
+      "criterion": "Sprint goal is an outcome",
+      "weight": 25,
+      "full": "One clear outcome-focused sentence",
+      "partial": "A list of tickets or vague words"
+    }
+  ],
+  "hints": [
+    "Start with availability: count developer-days, subtract every day off (including the public holiday for UK developers only), then scale the average velocity.",
+    "Must-dos first: what is losing money, what has a legal deadline in this sprint, what must ship before the freeze, and what did we already commit to?",
+    "Capacity ≈ 26. Must-dos: carry-over 5 + PayPal bug 3 + consent 5 + patch 3 = 16. Fill 10 more with ready work that fits the goal, e.g. confirmation email 3 + analytics event 2 + zero-result alternatives 5. Leave HB-115 out."
+  ],
+  "modelAnswer": "**Capacity:** 50 dev-days − 7 days off = 43. 30 × 43/50 ≈ **26 points**.\n\n**Scope (26 pts)**\n- HB-105 Reserve an item, carry-over (5)\n- HB-110 PayPal for MP guests (3): losing ≈ €4,000/day\n- Consent banner \"Reject all\" (5): legal deadline 12 Dec\n- SAP Commerce patch (3): must ship before the freeze\n- HB-106 Confirmation email (3): completes the pilot\n- HB-112 Zero-result analytics event (2) + HB-111 alternatives (5)\n\nAlso good: PayPal express (8) + analytics event (2) instead of the zero-result pair, if the BU values checkout more.\n\n**Not in:** HB-115 (not ready), shade selector (doesn't fit; next sprint).\n\n**Sprint goal:** *Chemist & Co shoppers can reserve an item and receive a confirmation, and checkout is compliant and stable on all brands before the peak freeze.*",
+  "commonMistakes": [
+    "Using full velocity (30) and ignoring holidays",
+    "Applying the UK public holiday to all five developers",
+    "Leaving out the carry-over or treating it as 8 points",
+    "Taking HB-115 because the BU wants it, although it is not ready",
+    "A goal like \"Do HB-105, HB-110 and the patch\""
+  ]
+}

@@ -1,0 +1,227 @@
+{
+  "id": "A4-one-hour-banner",
+  "track": "A",
+  "difficulty": 1,
+  "lessonId": "interruptions",
+  "title": "The \"1-hour\" Black Friday banner",
+  "skills": [
+    "Interruptions",
+    "Stakeholder communication",
+    "Protecting the sprint goal"
+  ],
+  "from": {
+    "name": "Sophie Martens",
+    "role": "BU eCommerce Manager, Drogisterij Prijs"
+  },
+  "context": "It's Wednesday, day 6 of the sprint. Sophie messages you:\n\n> *\"Can you add a Black Friday **countdown banner** to the homepages of all three brands by tomorrow? Our agency says it's 1 hour of work. Thanks!\"*\n\nYou check with Priya (tech lead):\n- The homepages have **CMS content slots**: the content team can publish a **static image banner** today, no developers needed.\n- A **live countdown timer** is a **new component**: about 3 days including NL/FR translations, QA on three brands and regression.\n- The **code freeze starts Friday 18:00**.\n- The sprint goal is *\"Shoppers on Chemist & Co can reserve an item and get a confirmation.\"* The team has no slack.",
+  "data": [
+    {
+      "title": "Sprint status (day 6 of 10)",
+      "columns": [
+        "Item",
+        "Pts",
+        "Status"
+      ],
+      "rows": [
+        [
+          "HB-105 Reserve an item",
+          8,
+          "In progress"
+        ],
+        [
+          "HB-106 Confirmation email",
+          3,
+          "To do"
+        ],
+        [
+          "HB-110 PayPal for MP guests (≈ €4k/day)",
+          3,
+          "In review"
+        ],
+        [
+          "HB-109 PayPal express",
+          8,
+          "To do"
+        ]
+      ]
+    }
+  ],
+  "task": "Decide how to handle the request, reply to Sophie, and note what you would raise at the retrospective.",
+  "constraints": [
+    "Be helpful, not bureaucratic",
+    "Protect the sprint goal and the bug fix",
+    "Keep the reply short enough for a chat message"
+  ],
+  "parts": [
+    {
+      "id": "decision",
+      "kind": "choice",
+      "label": "Your decision",
+      "prompt": "What do you do?",
+      "multi": false,
+      "options": [
+        {
+          "id": "accept",
+          "label": "Accept it into the sprint: it's only an hour",
+          "feedback": "The \"hour\" is the agency's guess. The real work is 3 days and it would break the sprint goal before the freeze."
+        },
+        {
+          "id": "refuse",
+          "label": "Decline: nothing new enters a running sprint",
+          "feedback": "Too rigid. There is a no-developer option that meets most of the need today."
+        },
+        {
+          "id": "explore",
+          "label": "Clarify the need, offer the static CMS banner via the content team today, and only if the live countdown is essential, agree openly what drops out",
+          "feedback": "Helpful and protects the goal: the BU gets a banner today; any trade-off is explicit."
+        },
+        {
+          "id": "overtime",
+          "label": "Ask two developers to build it in overtime tonight",
+          "feedback": "Rushed work right before a freeze is risky, and overtime hides the real cost."
+        }
+      ],
+      "correct": [
+        "explore"
+      ]
+    },
+    {
+      "id": "reply",
+      "kind": "text",
+      "label": "Reply to Sophie",
+      "prompt": "Write your reply (chat message, 60–150 words).",
+      "minWords": 60,
+      "rows": 7
+    },
+    {
+      "id": "retro",
+      "kind": "text",
+      "label": "For the retrospective",
+      "prompt": "What would you raise at the retro so this goes better next time?",
+      "minWords": 20,
+      "rows": 3
+    }
+  ],
+  "keypoints": [
+    {
+      "id": "cms",
+      "label": "Offers the CMS/static banner via the content team",
+      "part": "reply",
+      "anyOf": [
+        "cms",
+        "content team",
+        "content slot",
+        "static"
+      ]
+    },
+    {
+      "id": "checked",
+      "label": "Mentions the real size from the tech lead",
+      "part": "reply",
+      "anyOf": [
+        "priya",
+        "tech lead",
+        "checked",
+        "3 days",
+        "three days"
+      ]
+    },
+    {
+      "id": "freeze",
+      "label": "Mentions the code freeze",
+      "part": "reply",
+      "anyOf": [
+        "freeze"
+      ]
+    },
+    {
+      "id": "tradeoff",
+      "label": "Makes the trade-off explicit",
+      "part": "reply",
+      "anyOf": [
+        "swap",
+        "drop",
+        "instead",
+        "trade-off",
+        "push out",
+        "move out",
+        "delay",
+        "at the cost"
+      ]
+    },
+    {
+      "id": "question",
+      "label": "Asks a clarifying question",
+      "part": "reply",
+      "anyOf": [
+        "?"
+      ]
+    },
+    {
+      "id": "process",
+      "label": "Proposes a process improvement",
+      "part": "retro",
+      "anyOf": [
+        "campaign calendar",
+        "earlier",
+        "lead time",
+        "plan ahead",
+        "buffer",
+        "fast lane",
+        "intake",
+        "in advance",
+        "heads-up",
+        "heads up"
+      ]
+    }
+  ],
+  "rubric": [
+    {
+      "id": "decision",
+      "criterion": "Sound decision",
+      "weight": 25,
+      "full": "Explores the no-developer option and makes trade-offs explicit",
+      "partial": "Right direction, missing the alternative or the trade-off"
+    },
+    {
+      "id": "facts",
+      "criterion": "Uses facts, not opinions",
+      "weight": 20,
+      "full": "Real size, freeze date, goal impact",
+      "partial": "Some facts"
+    },
+    {
+      "id": "tone",
+      "criterion": "Helpful, clear tone",
+      "weight": 20,
+      "full": "Short, friendly, ends with a clear next step",
+      "partial": "Defensive or long"
+    },
+    {
+      "id": "goal",
+      "criterion": "Protects the sprint goal and bug fix",
+      "weight": 20,
+      "full": "Explicit about what must not move",
+      "partial": ""
+    },
+    {
+      "id": "retro",
+      "criterion": "Learning for next time",
+      "weight": 15,
+      "full": "Concrete process change",
+      "partial": "Generic"
+    }
+  ],
+  "hints": [
+    "Separate the need (a visible Black Friday message by tomorrow) from the solution (a live countdown component).",
+    "Is there a way to meet most of the need without developers? Who else can publish to the homepage?",
+    "Reply structure: thanks + the need you heard → what you checked (3 days, freeze Friday) → offer: static CMS banner today → if the countdown is essential, what would drop out → question to confirm. Retro: a campaign calendar so requests arrive two sprints ahead."
+  ],
+  "modelAnswer": "**Decision:** clarify and offer the CMS option; only bring the countdown in with an explicit trade-off.\n\n**Reply**\n> Hi Sophie, thanks. I get that you need Black Friday visible on all homepages tomorrow. I checked with Priya: a **static banner** can go live **today** through the content team's CMS slots, no developers needed. A **live countdown** is a new component: about 3 days with translations and QA on three brands, and the code freeze starts Friday 18:00. Building it would mean dropping the Reserve & Collect confirmation email from this sprint. Would the static banner work for you? If the countdown is essential, let's agree today what moves out.\n\n**Retro:** set up a shared **campaign calendar** with the BUs so campaign needs reach refinement at least two sprints ahead, and agree a small \"fast lane\" for content-only changes.",
+  "commonMistakes": [
+    "Believing the \"1 hour\" estimate from someone outside the team",
+    "A flat \"no\" without offering the CMS route",
+    "Quietly squeezing it in and failing the sprint goal",
+    "A reply that is a wall of process text"
+  ]
+}

@@ -1,0 +1,283 @@
+{
+  "id": "A1-refine-back-in-stock",
+  "track": "A",
+  "difficulty": 1,
+  "lessonId": "refinement",
+  "title": "Refine the back-in-stock alerts epic",
+  "skills": [
+    "Splitting epics",
+    "Estimation",
+    "Definition of Ready"
+  ],
+  "from": {
+    "name": "Priya Shah",
+    "role": "Tech lead"
+  },
+  "context": "Refinement is on Thursday. The BU wants **back-in-stock alerts** on all brands: shoppers who land on an out-of-stock product can ask to be emailed when it's back. Today the backlog has one big item, **HB-115 \"Back-in-stock alert sign-up on product page\"**, with one line of description and no acceptance criteria.\n\nPriya (tech lead): *\"We can't estimate this as one thing. Can you bring it split into stories the team can actually finish in a sprint?\"*",
+  "data": [
+    {
+      "title": "Facts you have",
+      "columns": [
+        "Topic",
+        "Fact"
+      ],
+      "rows": [
+        [
+          "Traffic",
+          "55% of product-page visitors are not logged in (guests)"
+        ],
+        [
+          "Variants",
+          "Chemist & Co and Maison Parfum sell many products in several shades/sizes"
+        ],
+        [
+          "Stock feed",
+          "Online stock updates every 15 minutes"
+        ],
+        [
+          "Email",
+          "Service emails go through the existing email platform; legal says an alert is a service email (no marketing consent needed)"
+        ],
+        [
+          "Rules from BU",
+          "Alerts expire after 90 days; no sign-up for discontinued products"
+        ],
+        [
+          "Design",
+          "A product-page sign-up mock-up is ready and linked in the epic"
+        ]
+      ]
+    },
+    {
+      "title": "HB-115 as written today",
+      "columns": [
+        "Field",
+        "Value"
+      ],
+      "rows": [
+        [
+          "Description",
+          "BU wants customers to sign up for an email when an out-of-stock product is back."
+        ],
+        [
+          "Acceptance criteria",
+          "(none)"
+        ],
+        [
+          "Estimate",
+          "(none – BU guessed \"about 8\")"
+        ],
+        [
+          "Dependencies",
+          "Not checked"
+        ]
+      ]
+    }
+  ],
+  "task": "Split the epic into 4–8 vertical stories with a size estimate and at least one acceptance criterion each. Then assess HB-115 against the Definition of Ready.",
+  "constraints": [
+    "Each story must deliver something a shopper can use or the business can measure",
+    "No story above 8 points",
+    "Do not split by technical layer (front end / back end)"
+  ],
+  "parts": [
+    {
+      "id": "stories",
+      "kind": "stories",
+      "label": "Your stories",
+      "prompt": "Write 4–8 stories. Estimate each (your best guess; the team will challenge it) and add at least one acceptance criterion.",
+      "minStories": 4,
+      "maxStories": 8,
+      "minAcPerStory": 1,
+      "requireEstimate": true
+    },
+    {
+      "id": "dor",
+      "kind": "choice",
+      "label": "Definition of Ready check for HB-115",
+      "prompt": "Which Definition of Ready items does HB-115 fail today? Select all that apply.",
+      "multi": true,
+      "options": [
+        {
+          "id": "story",
+          "label": "Clear user story with a \"so that\"",
+          "feedback": "It is a one-line BU wish with no user or benefit."
+        },
+        {
+          "id": "ac",
+          "label": "Acceptance criteria including unhappy paths",
+          "feedback": "There are none."
+        },
+        {
+          "id": "estimate",
+          "label": "Estimated by the team",
+          "feedback": "A BU guess is not a team estimate."
+        },
+        {
+          "id": "deps",
+          "label": "Dependencies known",
+          "feedback": "Email platform, stock feed and legal input have not been checked."
+        },
+        {
+          "id": "design",
+          "label": "Designs attached (UI change)",
+          "feedback": "A mock-up is already linked in the epic, so this one passes."
+        },
+        {
+          "id": "sponsor",
+          "label": "Approved by the BU director",
+          "feedback": "Not a Definition of Ready item: readiness is about clarity, not sign-off."
+        }
+      ],
+      "correct": [
+        "story",
+        "ac",
+        "estimate",
+        "deps"
+      ]
+    }
+  ],
+  "keypoints": [
+    {
+      "id": "guest",
+      "label": "Guest sign-up with email",
+      "part": "stories",
+      "anyOf": [
+        "guest",
+        "not logged in",
+        "logged out",
+        "email address"
+      ]
+    },
+    {
+      "id": "send",
+      "label": "Sending the alert when stock returns",
+      "part": "stories",
+      "anyOf": [
+        "back in stock",
+        "restock",
+        "stock returns",
+        "send the alert",
+        "receive an email",
+        "receive an alert",
+        "notified"
+      ]
+    },
+    {
+      "id": "variant",
+      "label": "Per shade / variant",
+      "part": "stories",
+      "anyOf": [
+        "shade",
+        "variant",
+        "size"
+      ]
+    },
+    {
+      "id": "manage",
+      "label": "Unsubscribe / manage alerts",
+      "part": "stories",
+      "anyOf": [
+        "unsubscribe",
+        "manage",
+        "cancel",
+        "remove my alert",
+        "stop"
+      ]
+    },
+    {
+      "id": "dup",
+      "label": "Duplicate sign-ups",
+      "part": "stories",
+      "anyOf": [
+        "already",
+        "duplicate",
+        "twice"
+      ]
+    },
+    {
+      "id": "disc",
+      "label": "Discontinued products",
+      "part": "stories",
+      "anyOf": [
+        "discontinued",
+        "no longer sold",
+        "delisted"
+      ]
+    },
+    {
+      "id": "expiry",
+      "label": "Alerts expire after 90 days",
+      "part": "stories",
+      "anyOf": [
+        "90 days",
+        "expire"
+      ]
+    },
+    {
+      "id": "report",
+      "label": "Measuring sign-ups and conversion",
+      "part": "stories",
+      "anyOf": [
+        "report",
+        "dashboard",
+        "conversion",
+        "analytics",
+        "tracking",
+        "measure",
+        "sign-ups",
+        "pays off",
+        "orders from"
+      ]
+    }
+  ],
+  "rubric": [
+    {
+      "id": "vertical",
+      "criterion": "Stories are vertical slices",
+      "weight": 25,
+      "full": "Every story delivers usable value end to end",
+      "partial": "Some stories are technical layers or tasks"
+    },
+    {
+      "id": "size",
+      "criterion": "Sizes are realistic and small",
+      "weight": 15,
+      "full": "All estimated, none above 8",
+      "partial": "Some missing or too big"
+    },
+    {
+      "id": "edge",
+      "criterion": "Edge cases are covered",
+      "weight": 20,
+      "full": "Guest, variants, duplicates, discontinued, expiry all handled",
+      "partial": "Some covered"
+    },
+    {
+      "id": "ac",
+      "criterion": "Acceptance criteria are testable",
+      "weight": 20,
+      "full": "Given/When/Then, one action, observable result",
+      "partial": "Some vague or compound"
+    },
+    {
+      "id": "dor",
+      "criterion": "DoR assessment is accurate",
+      "weight": 20,
+      "full": "Identified the 4 gaps and knew design passes",
+      "partial": "Some gaps missed or wrong items picked"
+    }
+  ],
+  "hints": [
+    "Follow the shopper's journey: sign up → get the alert → manage it. Each step can be a story.",
+    "Look at the facts table: guests, shades, discontinued products and the 90-day expiry are each a slice or an acceptance criterion.",
+    "A good set: (1) logged-in sign-up, (2) guest sign-up with email, (3) send alert when back in stock, (4) per shade, (5) unsubscribe, (6) expiry after 90 days, (7) reporting. For the DoR: story, ACs, estimate and dependencies fail; design passes."
+  ],
+  "modelAnswer": "### Stories\n| # | Story | Pts |\n|---|---|---|\n| 1 | As a logged-in shopper on an out-of-stock product, I want to ask to be notified, so that I don't have to keep checking | 3 |\n| 2 | As a guest shopper, I want to leave my email for an alert, so that I can be notified without creating an account | 3 |\n| 3 | As a shopper with an alert, I want an email when the product is back in stock, so that I can buy it before it sells out | 5 |\n| 4 | As a shopper choosing a shade, I want the alert to be for that exact shade, so that I'm not told about a shade I don't want | 3 |\n| 5 | As a shopper, I want to unsubscribe from an alert from the email, so that I stop receiving emails I no longer need | 2 |\n| 6 | As the business, we want alerts to expire after 90 days, so that we don't email shoppers about products they've forgotten | 2 |\n| 7 | As the BU eCommerce manager, I want to see sign-ups and orders from alerts, so that I can judge if the feature pays off | 2 |\n\n**Example acceptance criteria (story 2)**\n- Given the product is out of stock and I'm not logged in, when I submit a valid email, then I see a confirmation and the alert is stored.\n- Given I already have an alert for this product, when I sign up again, then no duplicate is created and I see \"You're already on the list\".\n- Given the product is discontinued, when I view it, then no sign-up is offered.\n\n### Definition of Ready for HB-115\nFails: **user story**, **acceptance criteria**, **team estimate**, **dependencies** (email platform, stock feed, legal confirmation not checked).\nPasses: **design** (mock-up linked). \"BU director approval\" is not a DoR item.",
+  "commonMistakes": [
+    "Splitting into \"API story\" and \"UI story\", which deliver nothing on their own",
+    "Forgetting guests, even though they are 55% of visitors",
+    "Putting every rule into one giant story",
+    "Treating the BU guess of \"8\" as an estimate"
+  ]
+}

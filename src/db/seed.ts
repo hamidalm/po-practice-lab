@@ -163,7 +163,7 @@ Let shoppers reserve an in-stock item online and collect it in store the same da
   ];
 
   const msg = (fromName: string, fromRole: string, subject: string, body: string, hoursAgo: number, read = false): InboxMessage => ({
-    id: newId(), fromName, fromRole, subject, body, receivedAt: now - hoursAgo * 3_600_000, read, linkedScenarioId: null,
+    id: newId(), fromName, fromRole, subject, body, receivedAt: now - hoursAgo * 3_600_000, read, linkedScenarioId: INBOX_LINKS[subject] ?? null,
   });
   const inbox: InboxMessage[] = [
     msg('Sophie Martens', 'BU eCommerce Manager, Drogisterij Prijs', 'We need a pop-up!',
@@ -183,6 +183,7 @@ Let shoppers reserve an in-stock item online and collect it in store the same da
     sprints: [s24, s25],
     pages,
     inbox,
+    attempts: [],
     meta: [
       { key: 'issueCounter', value: n },
       { key: 'settings', value: DEFAULT_SETTINGS },
@@ -201,7 +202,19 @@ export async function resetWorkspace() {
   });
 }
 
+/** Inbox messages that open a practice task (by subject). */
+export const INBOX_LINKS: Record<string, string> = {
+  'We need a pop-up!': 'B1-we-need-a-popup',
+  'Regression: PayPal button missing for guests (MP)': 'A5-release-go-no-go',
+  'Zero-result search numbers (DP)': 'A3-prioritise-bu-wishlist',
+  'Consent banner update required': 'A2-plan-sprint-25',
+};
+
 export async function ensureSeeded() {
   const seeded = await db.meta.get('seeded');
-  if (!seeded) await resetWorkspace();
+  if (!seeded) return resetWorkspace();
+  // Workspaces created before practice tasks existed: link the demo messages.
+  await db.inbox.toCollection().modify((m) => {
+    if (!m.linkedScenarioId && INBOX_LINKS[m.subject]) m.linkedScenarioId = INBOX_LINKS[m.subject];
+  });
 }

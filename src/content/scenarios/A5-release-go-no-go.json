@@ -1,0 +1,273 @@
+{
+  "id": "A5-release-go-no-go",
+  "track": "A",
+  "difficulty": 3,
+  "lessonId": "releases",
+  "title": "Go/no-go before the peak freeze",
+  "skills": [
+    "Defect triage",
+    "Go/no-go",
+    "Rollback planning"
+  ],
+  "from": {
+    "name": "Tom Becker",
+    "role": "QA Analyst"
+  },
+  "context": "The release candidate includes **Apple Pay**, the **Reserve & Collect pilot** and several fixes. The **peak freeze starts tomorrow at 18:00**. Tom has finished regression: **142 tests, 139 passed, 3 failed**.\n\nPriya: *\"The promo fix is about 4 hours of development plus 2 hours re-running the promo regression. We can make it before the freeze if we start now.\"* Apple Pay is behind a **feature flag** that can be switched per brand and per operating-system version.",
+  "data": [
+    {
+      "title": "Failed regression tests",
+      "columns": [
+        "ID",
+        "Defect",
+        "Facts"
+      ],
+      "rows": [
+        [
+          "D1",
+          "Apple Pay sheet doesn't open on iOS 16 Safari",
+          "New feature; iOS 16 = 6% of iOS sessions; feature flag available"
+        ],
+        [
+          "D2",
+          "Expired promo code WINTER10 still accepted on Drogisterij Prijs",
+          "Regression in promo engine; estimated loss up to €2,500/day"
+        ],
+        [
+          "D3",
+          "Typo in Maison Parfum footer: \"Privacy Polcy\"",
+          "Link works; cosmetic"
+        ]
+      ]
+    }
+  ],
+  "task": "Classify each defect, make the go/no-go call, and write the go/no-go note.",
+  "constraints": [
+    "Nothing can be released after the freeze until January",
+    "Be explicit about conditions and the rollback plan"
+  ],
+  "parts": [
+    {
+      "id": "triage",
+      "kind": "match",
+      "label": "Classify the defects",
+      "prompt": "Choose the right handling for each defect.",
+      "rows": [
+        {
+          "id": "d1",
+          "label": "D1 Apple Pay on iOS 16"
+        },
+        {
+          "id": "d2",
+          "label": "D2 Expired promo accepted"
+        },
+        {
+          "id": "d3",
+          "label": "D3 Footer typo"
+        }
+      ],
+      "options": [
+        {
+          "id": "blocker",
+          "label": "Blocker: fix before release"
+        },
+        {
+          "id": "mitigate",
+          "label": "Release with mitigation"
+        },
+        {
+          "id": "accept",
+          "label": "Accept, fix later"
+        }
+      ],
+      "answers": {
+        "d1": "mitigate",
+        "d2": "blocker",
+        "d3": "accept"
+      },
+      "explanations": {
+        "d1": "New feature for a small segment; switch the flag off for iOS 16 and keep it on elsewhere.",
+        "d2": "It leaks money and it's a regression of an existing feature. It must be fixed (or the release stopped).",
+        "d3": "Cosmetic, the link works. Fix in the next release."
+      }
+    },
+    {
+      "id": "call",
+      "kind": "choice",
+      "label": "Your call",
+      "prompt": "What do you decide?",
+      "multi": false,
+      "options": [
+        {
+          "id": "go",
+          "label": "Go as is",
+          "feedback": "You would release a money-losing regression right before a long freeze."
+        },
+        {
+          "id": "nogo",
+          "label": "No-go: postpone everything until January",
+          "feedback": "Too cautious: the blocker is fixable before the freeze and the rest can be mitigated."
+        },
+        {
+          "id": "cond",
+          "label": "Go with conditions: fix and re-test D2 first, Apple Pay flag off for iOS 16, D3 later; no-go if the D2 fix misses the deadline",
+          "feedback": "Balances value and risk, with a clear fallback."
+        },
+        {
+          "id": "flagall",
+          "label": "Go, and switch off promotions on Drogisterij Prijs until January",
+          "feedback": "Killing promotions in peak season costs far more than the fix."
+        }
+      ],
+      "correct": [
+        "cond"
+      ]
+    },
+    {
+      "id": "note",
+      "kind": "text",
+      "label": "Go/no-go note",
+      "prompt": "Write the note to the stakeholders (decision, conditions, defects, rollback, monitoring).",
+      "minWords": 70,
+      "rows": 10
+    }
+  ],
+  "keypoints": [
+    {
+      "id": "cond",
+      "label": "States the conditions clearly",
+      "part": "note",
+      "anyOf": [
+        "condition",
+        "provided",
+        "only if",
+        "once"
+      ]
+    },
+    {
+      "id": "promo",
+      "label": "Promo fix plus re-test before release",
+      "part": "note",
+      "anyOf": [
+        "retest",
+        "re-test",
+        "regression",
+        "promo test",
+        "re-run"
+      ]
+    },
+    {
+      "id": "flag",
+      "label": "Feature flag off for iOS 16",
+      "part": "note",
+      "anyOf": [
+        "flag",
+        "switch off",
+        "disable",
+        "turn off",
+        "switched off"
+      ]
+    },
+    {
+      "id": "rollback",
+      "label": "Rollback plan",
+      "part": "note",
+      "anyOf": [
+        "rollback",
+        "roll back",
+        "previous version",
+        "revert"
+      ]
+    },
+    {
+      "id": "monitor",
+      "label": "Monitoring after release",
+      "part": "note",
+      "anyOf": [
+        "monitor",
+        "dashboard",
+        "alert",
+        "watch",
+        "track"
+      ]
+    },
+    {
+      "id": "fallback",
+      "label": "Fallback if the fix misses the deadline",
+      "part": "note",
+      "anyOf": [
+        "no-go if",
+        "if the fix",
+        "otherwise",
+        "fallback",
+        "if not ready",
+        "not make",
+        "isn't fixed",
+        "not fixed",
+        "not ready",
+        "misses the deadline"
+      ]
+    },
+    {
+      "id": "comms",
+      "label": "Informs affected people",
+      "part": "note",
+      "anyOf": [
+        "customer service",
+        "bu",
+        "stakeholder",
+        "inform",
+        "store"
+      ]
+    }
+  ],
+  "rubric": [
+    {
+      "id": "triage",
+      "criterion": "Defects classified by impact",
+      "weight": 25,
+      "full": "Money/legal first, segment + flag, cosmetic later",
+      "partial": "One misclassified"
+    },
+    {
+      "id": "call",
+      "criterion": "Balanced decision",
+      "weight": 20,
+      "full": "Go with conditions and a fallback",
+      "partial": "Right call without fallback"
+    },
+    {
+      "id": "rollback",
+      "criterion": "Rollback and monitoring defined",
+      "weight": 20,
+      "full": "Trigger, owner, method",
+      "partial": "Mentioned only"
+    },
+    {
+      "id": "note",
+      "criterion": "Clear stakeholder note",
+      "weight": 20,
+      "full": "Decision first, then conditions, risks and plan",
+      "partial": "Hard to scan"
+    },
+    {
+      "id": "comms",
+      "criterion": "People informed",
+      "weight": 15,
+      "full": "BU, customer service, on-call",
+      "partial": ""
+    }
+  ],
+  "hints": [
+    "For each defect ask: does it lose money or break the law? Is it new or a regression? Can it be switched off? How many shoppers?",
+    "There is a fix for the worst defect that fits before the freeze. What happens if it doesn't make it?",
+    "D1 mitigate (flag off for iOS 16), D2 blocker (fix + promo regression), D3 accept. Decision: go with conditions; no-go if D2 isn't fixed and re-tested by e.g. 15:00 tomorrow. Note: decision → conditions → defects → rollback trigger → monitoring → who's informed."
+  ],
+  "modelAnswer": "**Triage:** D1 → release with mitigation (flag off for iOS 16) · D2 → blocker · D3 → accept, fix in January.\n\n**Call:** Go with conditions.\n\n**Go/no-go note**\n> **Decision: GO with conditions** for tomorrow's release.\n> 1. **D2 (expired promo accepted on DP):** fix today, re-run the promo regression. If it isn't fixed and passed by **15:00 tomorrow**, it's a **no-go** for the whole release.\n> 2. **D1 (Apple Pay on iOS 16):** Apple Pay goes live with the **flag switched off for iOS 16** (6% of iOS sessions). Fix planned for January.\n> 3. **D3 (footer typo):** accepted, fixed in January.\n>\n> **Rollback:** if checkout conversion drops >10% for 30 minutes or payment errors exceed 2%, Priya and I decide on rolling back to the previous version (or flags off for Apple Pay / Reserve & Collect).\n> **Monitoring:** checkout and payment dashboards watched for 2 hours after release; on-call developer named.\n> **Informed:** BU managers of all three brands, customer service (promo code questions), store ops (Reserve & Collect pilot).",
+  "commonMistakes": [
+    "Treating all three defects as blockers or all as acceptable",
+    "Forgetting the feature flag option for the new feature",
+    "No fallback if the blocker fix is late",
+    "No rollback trigger or owner"
+  ]
+}

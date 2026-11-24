@@ -4,6 +4,8 @@ import { useLiveQuery } from 'dexie-react-hooks';
 import { db } from '../../db/db';
 import { setMessageRead } from '../../db/actions';
 import { formatDateTime } from '../../components/ui';
+import { Link } from 'react-router-dom';
+import { getScenario } from '../../content';
 
 export default function InboxView() {
   const { messageId } = useParams();
@@ -46,9 +48,14 @@ export default function InboxView() {
               <button className="btn-subtle ml-auto text-xs" onClick={() => setMessageRead(current.id, false)}>Mark unread</button>
             </div>
             <p className="whitespace-pre-wrap text-sm leading-relaxed">{current.body}</p>
-            <div className="mt-6 rounded border border-dashed border-ink-300 p-3 text-sm text-ink-500">
-              Linked task: none yet. Practice tasks are linked to messages from Phase 2.
-            </div>
+            {current.linkedScenarioId && getScenario(current.linkedScenarioId) ? (
+              <div className="mt-6 flex items-center gap-3 rounded border border-brand-100 bg-brand-50/60 p-3 text-sm">
+                <span>This message starts a practice task: <b>{getScenario(current.linkedScenarioId)!.title}</b></span>
+                <Link className="btn-primary ml-auto" to={`/practice/${current.linkedScenarioId}`}>Start task →</Link>
+              </div>
+            ) : (
+              <div className="mt-6 rounded border border-dashed border-ink-300 p-3 text-sm text-ink-500">No practice task linked to this message.</div>
+            )}
           </div>
         ) : (
           <p className="text-ink-500">Select a message.</p>
