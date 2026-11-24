@@ -8,14 +8,15 @@ Brands in the demo workspace: **Chemist & Co** (UK drugstore), **Drogisterij Pri
 
 ## Status
 
-The app is **completely free and works offline**. There are no AI calls and no API keys.
+The app is **completely free and works offline**. There are no AI calls and no API keys. When you want AI feedback, the
+app gives you a ready-made prompt to paste into your own Claude account (see "Ask Claude" below).
 
 | Phase | Scope | State |
 |---|---|---|
 | 1 | Workspace: board, backlog, issues, links, pages, inbox, local storage | ✅ done |
 | 2 | Learn library (11 lessons), 10 guided practice tasks, instant checks, hints, rubric self-check, model answers | ✅ done |
-| 3 | "Ask Claude" copy-prompts with score paste-back | next |
-| 4 | Stakeholder role-plays, day simulation | |
+| 3 | "Ask Claude" copy-prompts with score paste-back | ✅ done |
+| 4 | Stakeholder role-plays, day simulation | next |
 | 5 | Progress tracking and review queue | |
 
 ## Setup
@@ -38,7 +39,27 @@ npm run build      # typecheck + production build
    - **Check:** automatic check (format rules, numbers, key points from the brief) plus your own rating against the rubric
    - **Compare:** your answer next to the model answer, the common mistakes, and saving your scores
 3. Hints are in the **Coach** panel (three levels, each one closer to the answer).
-4. Some **Inbox** messages start a task directly.
+4. **Ask Claude** (optional, free with a Claude account): see below.
+5. Some **Inbox** messages start a task directly.
+
+## Ask Claude (copy and paste)
+
+The app never calls an AI itself. Instead, buttons copy a ready-made prompt that you paste into claude.ai:
+
+| Where | Button | What Claude does |
+|---|---|---|
+| Step 3 · Check | **Copy review prompt** | Scores each rubric criterion, gives 3 strengths, 3 fixes, an improved version of your weakest part, and ends with a score block |
+| Step 3 · Check | **Save Claude's scores** | Paste Claude's reply back here: the score block is read and saved with your progress |
+| Step 2 · Your answer | **Ask Claude about this part** | Feedback on one written part, without rewriting it for you |
+| Coach panel | **Help me get unstuck** | Guiding questions only, never the answer |
+| Coach panel / lesson page | **Teach me the concept** | A fresh example, common mistakes and a 3-question quiz |
+
+Each button also has **Preview**, so you can see exactly what will be sent. The review prompt contains only the current
+task, your answer, the rubric and the reference answer. The score block looks like this:
+
+```po-lab-score
+{"scenario":"A2-plan-sprint-25","scores":{"cap":2,"must":1,"ready":2,"fit":2,"goal":1}}
+```
 
 ## Using the workspace
 
@@ -62,7 +83,7 @@ src/
   app/          layout, routes, UI state (zustand)
   components/   shared UI bits (type icons, pills, modal)
   content/      lessons (Markdown) and scenarios (JSON)
-  engine/       instant checks and scoring, with unit tests
+  engine/       instant checks, scoring, Claude prompts and score parsing, with unit tests
   db/           Dexie schema, types, actions, attempts, demo seed, backup
   lib/          pure logic with unit tests (ranking, link rules, backup format)
   features/

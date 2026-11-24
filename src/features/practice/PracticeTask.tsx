@@ -13,6 +13,9 @@ import { useUi } from '../../app/uiStore';
 import Markdown from '../../components/Markdown';
 import Findings from '../../components/Findings';
 import PartEditor from './parts/PartEditor';
+import ClaudeReview from './ClaudeReview';
+import CopyPrompt from '../../components/CopyPrompt';
+import { buildPartPrompt } from '../../engine/prompts';
 import { Difficulty, ScoreBadge } from './PracticeList';
 
 const STEPS: { id: AttemptStep; label: string }[] = [
@@ -141,6 +144,11 @@ function AnswerStep({ scenario, answers, setAnswers, onNext }: { scenario: Scena
           <p className="mb-3 text-sm text-ink-700">{p.prompt}</p>
           <PartEditor part={p} value={answers[p.id]} onChange={(v) => setAnswers((a) => ({ ...a, [p.id]: v }))}
             yourCapacity={Number.isNaN(yourCapacity) ? undefined : yourCapacity} />
+          {(p.kind === 'text' || p.kind === 'stories') && (
+            <div className="mt-3 border-t border-ink-300/50 pt-2">
+              <CopyPrompt label="Ask Claude about this part" build={() => buildPartPrompt(scenario, p, answers)} />
+            </div>
+          )}
         </section>
       ))}
       <div className="flex items-center gap-3">
@@ -223,6 +231,8 @@ function CheckStep({ scenario, attempt, answers, onBack, onNext }: { scenario: S
         </table>
       </section>
 
+      <ClaudeReview scenario={scenario} attempt={attempt} answers={answers} />
+
       <div className="flex items-center gap-3">
         <button className="btn-subtle border border-ink-300" onClick={onBack}>← Improve my answer</button>
         <button className="btn-primary" disabled={!complete} onClick={onNext}>Compare with the model answer →</button>
@@ -267,6 +277,9 @@ function CompareStep({ scenario, attempt, answers }: { scenario: Scenario; attem
         <div className="flex flex-wrap items-center gap-4">
           <div className="text-sm">Automatic check <ScoreBadge value={auto} /></div>
           <div className="text-sm">Self-check <ScoreBadge value={self} /></div>
+          {attempt.claudeReview && attempt.checkedAt && attempt.claudeReview.at >= attempt.checkedAt && (
+            <div className="text-sm">Claude <ScoreBadge value={attempt.claudeReview.score} /></div>
+          )}
           <div className="text-sm text-ink-500">Hints used: {attempt.hintsUsed}/3</div>
           <div className="ml-auto flex flex-wrap gap-2">
             {savedThisRun ? <span className="btn bg-green-100 text-green-800">✓ Saved to your progress</span>
@@ -278,7 +291,7 @@ function CompareStep({ scenario, attempt, answers }: { scenario: Scenario; attem
         {msg && <p className="mt-2 text-sm text-green-700">{msg}</p>}
         {attempt.history.length > 0 && (
           <div className="mt-3 border-t border-ink-300/60 pt-2 text-xs text-ink-500">
-            History: {attempt.history.map((h, i) => <span key={i} className="mr-3">{new Date(h.at).toLocaleDateString('en-GB')} · auto {h.autoScore} · self {h.selfScore}</span>)}
+            History: {attempt.history.map((h, i) => <span key={i} className="mr-3">{new Date(h.at).toLocaleDateString('en-GB')} · auto {h.autoScore} · self {h.selfScore}{h.claudeScore !== undefined ? ` · Claude ${h.claudeScore}` : ''}</span>)}
           </div>
         )}
       </section>

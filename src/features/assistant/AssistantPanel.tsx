@@ -5,6 +5,8 @@ import { db } from '../../db/db';
 import { updateAttempt } from '../../db/attempts';
 import { getLesson, getScenario } from '../../content';
 import type { AttemptStep } from '../../db/types';
+import CopyPrompt from '../../components/CopyPrompt';
+import { buildHintPrompt, buildLessonPrompt } from '../../engine/prompts';
 
 const STEP_TIPS: Record<AttemptStep, string> = {
   brief: 'Read the situation and the data slowly. The numbers usually contain the key insight. Unsure about the concept? Open the full lesson.',
@@ -46,6 +48,14 @@ export default function AssistantPanel() {
                 </button>
               ) : <p className="mt-2 text-xs text-ink-500">All hints shown.</p>}
             </div>
+            <div className="card space-y-3 p-3">
+              <p className="font-medium">Ask Claude</p>
+              <CopyPrompt label="Help me get unstuck" build={() => buildHintPrompt(scenario, attempt.answers)} hint="Guiding questions, no answer." />
+              {getLesson(scenario.lessonId) && (
+                <CopyPrompt label="Teach me the concept" build={() => buildLessonPrompt(getLesson(scenario.lessonId)!.title, getLesson(scenario.lessonId)!.conceptCard)} hint="New example plus a 3-question quiz." />
+              )}
+              <p className="text-xs text-ink-500">Full review with scores: step 3 · Check.</p>
+            </div>
             <div className="card p-3">
               <p className="text-xs uppercase text-ink-500">Lesson</p>
               <Link className="text-brand-700 hover:underline" to={`/learn/${scenario.lessonId}`}>{getLesson(scenario.lessonId)?.title}</Link>
@@ -57,7 +67,7 @@ export default function AssistantPanel() {
             <p className="mt-1 text-ink-500">Open a task in <Link className="text-brand-700 underline" to="/practice">Practice</Link> or from the Inbox. Its tips and hints appear here.</p>
           </div>
         )}
-        <p className="text-xs text-ink-500">Offline · free · no AI calls</p>
+        <p className="text-xs text-ink-500">Free · works offline · Claude only when you paste a prompt</p>
       </div>
     </aside>
   );

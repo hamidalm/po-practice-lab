@@ -4,6 +4,8 @@ import { db } from '../../db/db';
 import { LESSONS, TRACKS, getLesson, scenariosForLesson, type Lesson } from '../../content';
 import Markdown from '../../components/Markdown';
 import { Difficulty } from '../practice/PracticeList';
+import CopyPrompt from '../../components/CopyPrompt';
+import { buildLessonPrompt } from '../../engine/prompts';
 
 const GROUPS: { id: Lesson['group']; name: string }[] = [
   { id: 'Foundations', name: 'Foundations' },
@@ -95,6 +97,11 @@ function LessonPage({ lesson, isRead }: { lesson: Lesson; isRead: boolean }) {
             ))}
           </ul>
         ) : <p className="text-sm text-ink-700">This lesson underpins all tasks. Try any task in the Practice section.</p>}
+      </div>
+      <div className="mt-4 rounded-lg border border-purple-200 bg-purple-50/40 p-4">
+        <h2 className="mb-1 font-semibold">Learn it with Claude</h2>
+        <p className="mb-2 text-sm text-ink-700">Copy this prompt into Claude for a fresh example, the most common mistakes, and a 3-question quiz.</p>
+        <CopyPrompt label="Copy lesson prompt" build={() => buildLessonPrompt(lesson.title, lesson.conceptCard)} />
       </div>
       <button className={`mt-4 ${isRead ? 'btn-subtle border border-ink-300' : 'btn-primary'}`} onClick={() => setRead(lesson.id, !isRead)}>
         {isRead ? '✓ Marked as read (undo)' : 'Mark as read'}

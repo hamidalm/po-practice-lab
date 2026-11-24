@@ -98,6 +98,14 @@ export interface ScoreRecord {
   autoScore: number;
   selfScore: number;
   hintsUsed: number;
+  /** rubric score from Claude's pasted review, if any */
+  claudeScore?: number;
+}
+
+export interface ClaudeReview {
+  at: number;
+  scores: Record<string, number>;
+  score: number;
 }
 
 /** One working attempt per scenario (id = scenario id), plus the history of completed runs. */
@@ -112,4 +120,5 @@ export interface Attempt {
   startedAt: number;
   updatedAt: number;
   history: ScoreRecord[];
+  claudeReview?: ClaudeReview | null;
 }

@@ -28,7 +28,8 @@ export async function setAnswer(id: string, partId: string, value: unknown) {
 export async function completeAttempt(id: string, autoScore: number, selfScore: number) {
   const a = await db.attempts.get(id);
   if (!a) return;
-  const history = [...a.history, { at: Date.now(), autoScore, selfScore, hintsUsed: a.hintsUsed }];
+  const fresh = a.claudeReview && a.checkedAt && a.claudeReview.at >= a.checkedAt ? a.claudeReview.score : undefined;
+  const history = [...a.history, { at: Date.now(), autoScore, selfScore, hintsUsed: a.hintsUsed, ...(fresh !== undefined ? { claudeScore: fresh } : {}) }];
   await db.attempts.update(id, { history, updatedAt: Date.now() });
 }
 
